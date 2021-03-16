@@ -9,10 +9,10 @@ class Auth extends MY_Controller {
 
     public function index() {
 
-        if (!empty($this->session->userdata('has_loggedin'))) {
-            redirect('laporan');
-            exit();
-        }
+//        if (!empty($this->session->userdata('has_loggedin'))) {
+//            redirect('laporan');
+//            exit();
+//        }
         $this->load->view('login');
     }
 
