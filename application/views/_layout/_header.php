@@ -9,7 +9,10 @@
         <title>Dashboard - SB Admin</title>
         <link href="<?= base_url()?>assets/css/styles.css" rel="stylesheet" />
         <link href="<?= base_url()?>assets/dataTables/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="<?= base_url()?>assets/dataTables/buttons.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="<?= base_url()?>assets/dataTables/dataTables.select.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="<?= base_url()?>assets/fontAwesome/fontAwesome.min.js" crossorigin="anonymous"></script>
+        <script src="<?= base_url()?>assets/jQuery/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -47,11 +50,11 @@
                             
                             <?php if ($data_user->level == LEVEL3){ ?>
                             
-                            <a class="nav-link" href="<?= base_url() ?>pengajuan">
+                            <a class="nav-link" href="<?= base_url() ?>luser/pengajuan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                                 Pengajuan
                             </a>
-                            <a class="nav-link" href="<?= base_url() ?>monitoring">
+                            <a class="nav-link" href="<?= base_url() ?>luser/monitoring">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tv"></i></div>
                                 Monitoring
                             </a>
