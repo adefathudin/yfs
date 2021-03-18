@@ -14,7 +14,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             
-            <a class="navbar-brand" href="index.html">Sistem Online</a>
+            <a class="navbar-brand" href="<?= base_url() ?>"><?= APP_TITLE ?></a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -23,12 +23,12 @@
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto ml-md-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ade Fathudin (Lurah) <i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= $data_user->nama_lengkap ?> (<?= $data_user->status_jabatan?>) <i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="#">Settings</a>
                         <a class="dropdown-item" href="#">Activity Log</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="login.html">Logout</a>
+                        <a class="dropdown-item" href="<?= base_url()?>auth/logout">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -38,25 +38,29 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <a class="nav-link" href="index.html">
+                            
+                            <div class="sb-sidenav-menu-heading">Main Menu</div>
+                            <a class="nav-link" href="<?= base_url() ?>dashboard">
                                 <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                                 Dashboard
                             </a>
                             
-                            <div class="sb-sidenav-menu-heading">Masyarakat</div>
+                            <?php if ($data_user->level == LEVEL3){ ?>
                             
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="<?= base_url() ?>pengajuan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                                 Pengajuan
                             </a>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="<?= base_url() ?>monitoring">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tv"></i></div>
                                 Monitoring
                             </a>
                             
-                            <div class="sb-sidenav-menu-heading">Operator</div>    
+                            <?php } else if ($data_user->level == LEVEL2){ ?>
                             
-                            <a class="nav-link" href="index.html">
+                            <div class="sb-sidenav-menu-heading">Operator</div> 
+                            
+                            <a class="nav-link" href="<?= base_url() ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
                                 Manajemen Users
                             </a>  
@@ -65,7 +69,7 @@
                                 Pelayanan
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>                      
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="<?= base_url() ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Rekapitulasi Laporan
                             </a>
@@ -76,38 +80,30 @@
                                 </nav>
                             </div>
                             
+                            <?php } else if ($data_user->level == LEVEL2){ ?>
+                            
                             <div class="sb-sidenav-menu-heading">User Approval</div>    
                             
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher"></i></div>
                                 Pelayanan
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>     
-                            
-                            <div class="sb-sidenav-menu-heading">User Login</div>    
-                            
-                            <a class="nav-link" href="index.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tv"></i></div>
-                                Login
                             </a>
-                            <a class="nav-link" href="index.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tv"></i></div>
-                                Sign Up
-                            </a>
+                            
+                            <?php }?>
                             
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <?= $data_user->level ?>
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb mb-4">
+                        <ol class="breadcrumb mt-4">
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
 
