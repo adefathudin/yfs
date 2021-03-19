@@ -90,5 +90,5 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 defined('APP_TITLE')    OR define('APP_TITLE', 'E-Governement');
 defined('APP_SUBTITLE')    OR define('APP_SUBTITLE', 'Kampung Sawah');
 defined('LEVEL1')    OR define('LEVEL1', 'Kampung Sawah');
-defined('LEVEL2')    OR define('LEVEL2', 'Kampung Sawah');
+defined('LEVEL2')    OR define('LEVEL2', 'operator');
 defined('LEVEL3')    OR define('LEVEL3', 'user');

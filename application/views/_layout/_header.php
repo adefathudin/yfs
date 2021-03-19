@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
+        <title><?= $title ?> - <?= APP_TITLE?></title>
         <link href="<?= base_url()?>assets/css/styles.css" rel="stylesheet" />
         <link href="<?= base_url()?>assets/dataTables/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <link href="<?= base_url()?>assets/dataTables/buttons.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -61,9 +61,7 @@
                             
                             <?php } else if ($data_user->level == LEVEL2){ ?>
                             
-                            <div class="sb-sidenav-menu-heading">Operator</div> 
-                            
-                            <a class="nav-link" href="<?= base_url() ?>">
+                            <a class="nav-link" href="<?= base_url() ?>loperator/users">
                                 <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
                                 Manajemen Users
                             </a>  
@@ -71,17 +69,19 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher"></i></div>
                                 Pelayanan
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>                      
+                            </a>
+                            
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="<?= base_url()?>loperator/pengaturan_layanan">Pengaturan Layanan</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html"></a>
+                                </nav>
+                            </div>
+                            
                             <a class="nav-link" href="<?= base_url() ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Rekapitulasi Laporan
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                                </nav>
-                            </div>
                             
                             <?php } else if ($data_user->level == LEVEL2){ ?>
                             
@@ -107,7 +107,7 @@
                 <main>
                     <div class="container-fluid">
                         <ol class="breadcrumb mt-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item active"><?= $title ?></li>
                         </ol>
 
                         <!-- START CONTENT -->

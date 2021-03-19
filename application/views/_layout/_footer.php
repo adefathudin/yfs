@@ -18,6 +18,7 @@
         </div>
         <script src="<?= base_url()?>assets/bootstrap/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="<?= base_url()?>assets/js/scripts.js"></script>
+        <script src="<?= base_url()?>assets/sweetalert/sweetalert.min.js"></script>
 <!--        <script src="<?= base_url()?>assets/js/Chart.min.js" crossorigin="anonymous"></script>
         <script src="<?= base_url()?>assets/demo/chart-area-demo.js"></script>
         <script src="<?= base_url()?>assets/demo/chart-bar-demo.js"></script>-->
