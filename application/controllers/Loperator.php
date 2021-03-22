@@ -19,11 +19,11 @@ class Loperator extends MY_Controller {
                redirect('auth');
         }
         
-        $this->load->model('master_surat_m');
+        $this->load->model('rel_fp_m');
         
         $this->data['title'] = 'Pengaturan Layanan';
         $this->data['subview'] = 'operator/pengaturan_layanan_index';
-        $this->data['master_surat'] = $this->master_surat_m->get();
+        $this->data['rel_fp'] = $this->rel_fp_m->get();
 
         $this->load->view('_layout_main', $this->data);
     }

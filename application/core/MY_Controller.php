@@ -14,10 +14,11 @@ class MY_Controller extends CI_Controller {
         $this->load->model('users_detail_m');
         $this->load->model('laporan_m');
         $this->userlib = new Userlib();       
+        $user_id = $this->session->userdata('user_id');
+        $this->data['user_id'] = $user_id;
+         
         
-        $this->data['user_id'] = $this->session->userdata('user_id');
-        
-        $data_users = $this->users_detail_m->get_by(['user_id' => $this->session->userdata('user_id')]);
+        $data_users = $this->users_detail_m->get_by(['user_id' => $user_id]);
         
         foreach ($data_users as $data_user){
             $this->data['data_user'] = $data_user;

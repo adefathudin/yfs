@@ -11,7 +11,8 @@
         <link href="<?= base_url()?>assets/dataTables/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <link href="<?= base_url()?>assets/dataTables/buttons.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" />
         <link href="<?= base_url()?>assets/dataTables/dataTables.select.min.css" rel="stylesheet" crossorigin="anonymous" />
-        <script src="<?= base_url()?>assets/fontAwesome/fontAwesome.min.js" crossorigin="anonymous"></script>
+        <link href="<?= base_url()?>assets/select2/select2.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="<?= base_url()?>assets/select2/select2-bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="<?= base_url()?>assets/jQuery/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -74,7 +75,7 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="<?= base_url()?>loperator/pengaturan_layanan">Pengaturan Layanan</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html"></a>
+                                    <a class="nav-link" href="<?= base_url()?>loperator/file_pendukung">File Pendukung</a>
                                 </nav>
                             </div>
                             

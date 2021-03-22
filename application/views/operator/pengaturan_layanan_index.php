@@ -8,26 +8,102 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
+                        <th>No</th>
+                        <th>Jenis Layanan</th>
+                        <th>Add Id</th>
+                        <th>Add Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
+                        <td colspan="4">No data available</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="addLayananModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form  class="form-add-layanan" method="post" action="<?= base_url() ?>service/loperator/add_layanan">
+                    <div class="form-group col-sm">
+                        <input type="text" class="form-control" name="nama_layanan" placeholder="Nama layanan">
+                    </div>
+                    <div class="form-group col-sm-12" required name>                        
+                        <label>Persyaratan :</label>
+                        <div class="list-master-fp">No data available</div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                    <button type="submit" class="btn btn-secondary">add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addMasterPersyaratan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form  class="form-add-fp" method="post" action="<?= base_url() ?>service/loperator/add_fp">
+                    <div class="form-group col-sm">
+                        <input type="text" class="form-control" name="nama_fp" placeholder="Nama Dokumen">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="detailLayananModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Layanan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table" width="100%">
+                    <tbody class="dt-layanan"></tbody>
+                    <tr>
+                        <td colspan="">Dokumen Persyaratan</td>
+                        <td>:</td>
+                        <td class="fp-layanan">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     var JS = {
@@ -57,22 +133,41 @@
                                 dt.ajax.reload( null, false );
                             }
                         },
-                        {
-                            extend: 'print',
-                            text: '<i class="fa fa-print"></i>',
-                            className:'btn btn-sm btn-default',
-                            title: 'Data Produksi ',
-                            exportOptions: {
-                                columns:[0,1,2]
-                            },
-                            message: 'Dicetak pada tanggal 18/03/2021 10:49:17 melalui aplikasi BRISMA TSI Tools'
-                        },
                         { 
-                            text: '<i class="fa fa-plus"></i>', 
+                            text: '<i class="fa fa-plus"></i> Master Persyaratan', 
                             className:'btn btn-sm', 
                             action: function( e, dt, btn, config ){
-                                $('#modalAddAccount').find('.modal-title').text('Add Account');
-                                $('#modalAddAccount').modal();
+                                $('#addMasterPersyaratan').find('.modal-title').text('Tambah Dokumen Persyaratan');
+                                $('#addMasterPersyaratan').modal();
+                                $('.form-control').val('');
+                            }
+                        },
+                        { 
+                            text: '<i class="fa fa-plus"></i> Jenis Layanan', 
+                            className:'btn btn-sm', 
+                            action: function( e, dt, btn, config ){
+                                $('.list-master-fp').html('');
+                                $.ajax({
+                                    url:'<?= base_url() ?>service/loperator/fp',
+                                    type: 'GET',
+                                    dataType: 'json'
+                                }).then(function (data) {
+                                    var i;
+                                    var html = '';
+                                    if (data.status) {
+                                        for (i=0; i < data.item.length; i++){
+                                            html += '<div class="form-check">' +
+                                                    '<input class="form-check-input" type="checkbox" name="fp_layanan[]" value="'+data.item[i].id_fp+'" id="'+data.item[i].id_fp+'">' +
+                                                    '<label class="form-check-label" for="'+data.item[i].id_fp+'">'+data.item[i].desc_fp+'</label>' +
+                                                    '</div>';
+                                        }
+                                    } 
+                                    
+                                    $('.list-master-fp').html(html);
+                                });
+                                
+                                $('#addLayananModal').find('.modal-title').text('Tambah Jenis Pelayanan');
+                                $('#addLayananModal').modal();
                                 $('.form-control').val('');
                             }
                         },
@@ -82,20 +177,50 @@
                             className:'btn btn-sm btn-default',
                             enabled: false,
                             action: function(e, dt, btn, config){
-                                
                                 var $item = dt.row( { selected: true } ).data();
-                                
+                                var id_layanan = $item.id_layanan;
                                 var html;
+                                html += '<tr>' +
+                                            '<td>ID Layanan</td>' +
+                                            '<td>:</td>' +
+                                            '<td>'+$item.id_layanan+'</td>' +
+                                        '</tr>' +
+                                        '<tr>' +
+                                            '<td>Jenis Layanan</td>' +
+                                            '<td>:</td>' +
+                                            '<td>'+$item.desc_layanan+'</td>' +
+                                        '</tr>' +
+                                        '<tr>' +
+                                            '<td>Add ID</td>' +
+                                            '<td>:</td>' +
+                                            '<td>'+$item.nama_lengkap+' ('+$item.status_jabatan+')</td>' +
+                                        '</tr>' +
+                                        '<tr>' +
+                                            '<td>Add Time</td>' +
+                                            '<td>:</td>' +
+                                            '<td>'+$item.add_time+'</td>' +
+                                        '</tr>';
                                 
-                                html += '<tr><td>Kategori</td><td>' + $item.account_name + '</td></tr>\n\
-                                         <tr><td>Subject</td><td>' + $item.subject + '</td></tr>\n\
-                                         <tr><td>RKEY 1</td><td>' + $item.rkey1 + '</td></tr>\n\
-                                         <tr><td>RKEY 2</td><td>' + $item.rkey2 + '</td></tr>\n\
-                                         <tr><td>Description</td><td>' + $item.des + '</td></tr>\n\
-                                         <tr><td>Last Update</td><td>' + $item.last_update + '</td></tr>';
                                 
-                                $('.tbl-detail-account').html(html);
-                                $('#modalDetailAccount').modal();
+                                
+                                $.ajax({
+                                    url:'<?= base_url() ?>service/loperator/detail_fp',
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    data: {id_layanan:id_layanan}
+                                }).then(function (data) {
+                                    var i;
+                                    var fp = '';
+                                    if (data.status) {
+                                        for (i=0;i<data.item.length;i++){
+                                            fp += '<li>'+data.item[i].desc_fp+'</li>';
+                                        }
+                                    } else {}
+                                    $('.fp-layanan').html(fp);
+                                });
+                                
+                                $('.dt-layanan').html(html);
+                                $('#detailLayananModal').modal();
                                 
                             }
                         },
@@ -121,75 +246,85 @@
                                 $('#modalAddAccount').modal();
                                 
                             }
-                        },
-                        {
-                            extend: 'selected',
-                            text: '<i class="fa fa-ban"></i>',
-                            className:'btn btn-sm btn-default',
-                            action: function ( e, dt, button, config ) {
-                                var data = dt.row( { selected: true } ).data();
-                                if (!confirm('Ada yakin ingin menonaktifkan akun ' + data.subject)) {
-                                    return false;
-                                }
-                                
-                                $.ajax({
-                                url:'http://172.18.3.27:2727/index/service/genuse/block_account',
-                                data:{id: data.id},
-                                type:'POST',
-                                dataType:'json'
-                                }).then(function(data){
-                                    Swal.fire({
-                                        icon: 'success',
-                                        text: ''+ data.message +'',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    })
-                                    $(".btn-reload").trigger('click');
-                                });
-                            }
-                        },
-                        {
-                            extend: 'selected',
-                            text: '<i class="fa fa-trash"></i>',
-                            className:'btn btn-sm btn-default',
-                            action: function ( e, dt, button, config ) {
-                                var data = dt.row( { selected: true } ).data();
-                                if (!confirm('Ada yakin ingin menghapus akun ' + data.subject)) {
-                                    return false;
-                                }
-                                
-                                $.ajax({
-                                url:'http://172.18.3.27:2727/index/service/genuse/delete_account',
-                                data:{id: data.id},
-                                type:'delete',
-                                dataType:'json'
-                                }).then(function(data){
-                                    Swal.fire({
-                                        icon: 'success',
-                                        text: ''+ data.message +'',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    })
-                                    $(".btn-reload").trigger('click');
-                                });
-                            }
                         }
                                 
                     ]
                 },
 
                 ajax      : {
-                    url:"http://localhost/brisma/btt/index/service/genuse/auth_list",
+                    url:"<?= base_url() ?>service/loperator/layanan",
                     type: "GET"
                 },
                 columns: [
-                    {data: 'account_name', class:'text-left'},
-                    {data: 'subject', class:'text-left'},
-                    {data: 'rkey1', class:'text-left'},
-                    {data: 'rkey2', class:'text-left'},
-                    {data: 'last_update', class:'text-left'}
+                    {data: null,"sortable": false, 
+                        render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                        }  
+                    },
+                    {data: 'desc_layanan', class:'text-left'},
+                    {data: 'nama_lengkap', class:'text-left'},
+                    {data: 'add_time', class:'text-left'}
                     ]
             });
+
+            $(".form-add-layanan").validate({
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        url: $(form).attr('action'),
+                        type: $(form).attr('method'),
+                        beforeSubmit: function () {
+                            if (!confirm("Tambah layanan "+$(form).find('input[type="text"]').val()+"?")) {
+                                return false;
+                            }
+                            $(form).find('button[type="submit"]').attr('disabled', 'disabled').html('<i class="fa fa-spin fa-circle-notch"></i> Please wait...');
+                        },
+                        success: function (data) {
+                            if (data.status) {
+                                $('.btn-reload').click();
+                                Swal.fire({
+                                    icon: 'success',
+                                    text: ''+ data.message +'',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                $('#addLayananModal').modal('toggle');
+                            }
+                            
+                            $(form).find('button[type="submit"]').removeAttr('disabled').html('Pilih');
+                        }
+                    });
+                }
+            });
+            
+            $(".form-add-fp").validate({
+                submitHandler: function (form) {
+                    $(form).ajaxSubmit({
+                        url: $(form).attr('action'),
+                        type: $(form).attr('method'),
+                        beforeSubmit: function () {
+                            if (!confirm("Tambah dokumen persyaratan "+$(form).find('input[type="text"]').val()+"?")) {
+                                return false;
+                            }
+                            $(form).find('button[type="submit"]').attr('disabled', 'disabled').html('<i class="fa fa-spin fa-circle-notch"></i> Please wait...');
+                        },
+                        success: function (data) {
+                            if (data.status) {
+                                $('.btn-reload').click();
+                                Swal.fire({
+                                    icon: 'success',
+                                    text: ''+ data.message +'',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                $('#addMasterPersyaratan').modal('toggle');
+                            }
+                            $(form).find('button[type="submit"]').removeAttr('disabled').html('Pilih');
+                        }
+                    });
+                }
+            });
+
+    
         },
 
     };
