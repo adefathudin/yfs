@@ -6,28 +6,35 @@ class Luser extends REST_Controller {
 
     function __construct($config = 'rest') {
         parent::__construct($config);
-        $this->load->model(['pendukung_surat_m','pendukung_surat_upload_m']);
+        $this->load->model(['ref_fp_m','ref_fp_upload_m']);
     }
     
-    public function pendukung_surat_get(){
+    public function fp_layanan_get(){
         
         $output['status'] = false;
-        $id_surat = $this->get('id_surat');
-        $user_id = $this->get('user_id');
+        $id_layanan = $this->get('id_layanan');
+        $user_id = $this->session->userdata('user_id');
         
-//        $this->db->select('a.*,b.status_upload,b.upload_time');
-//        $this->db->from('pendukung_surat a');
-//        $this->db->join('pendukung_surat_upload b', 'a.nama_dokumen = b.nama_dokumen', 'left outer');
-//        $this->db->where('a.id_surat', $id_surat);
-//        $this->db->where('b.user_id', $user_id);
-//        $dokumen_eksist = $this->db->get()->result();
+        $id_layanan = $this->get('id_layanan');
         
-        $result = $this->pendukung_surat_m->get_by(['id_surat' => $id_surat]);
-
-        if ($result){
+        $this->db->select('a.id_layanan, b.id_fp, b.desc_fp');
+        $this->db->from('ref_fp a,rel_fp b,rel_layanan c');
+        $this->db->where('a.id_layanan',$id_layanan);        
+        $this->db->where('c.id_layanan',$id_layanan);
+        $this->db->where('a.id_fp=b.id_fp');
+        $result_fp = $this->db->get()->result();
+        
+        $this->db->select('a.upload_time, a.path_upload, b.desc_fp');
+        $this->db->from('ref_fp_upload a, rel_fp b');
+        $this->db->where('a.layanan_id',$id_layanan);        
+        $this->db->where('a.add_id',$user_id);
+        $this->db->where('a.fp_id=b.id_fp');
+        $result_fp_eksist = $this->db->get()->result();
+        
+        if ($result_fp){
             $output['status'] = true;
-            $output['dokumen_eksist'] = $this->pendukung_surat_upload_m->get_by(['id_surat' => $id_surat, 'user_id' => $user_id]);;
-            $output['dokumen'] = $result;
+            $output['fp_uploaded'] = $result_fp_eksist;
+            $output['fp_layanan'] = $result_fp;
         }                
         $this->response($output);        
     }
@@ -35,16 +42,16 @@ class Luser extends REST_Controller {
     public function upload_dokumen_post(){
         
         $output['status'] = false;
-        $id_surat = $this->post('id_surat');
-        $user_id = $this->post('user_id');
-        $nama_dokumen = $this->post('nama_dokumen');
+        $id_layanan = $this->post('id_layanan');
+        $user_id = $this->session->userdata('user_id');
+        $id_fp = $this->post('id_fp');
         
         $upload_path = 'assets/image/Dokumen/';        
         
-        $upload_eksist = $this->pendukung_surat_upload_m->get_by(['user_id' => $user_id, 'id_surat' => $id_surat, 'nama_dokumen' => $nama_dokumen]);
+        $upload_eksist = $this->ref_fp_upload_m->get_by(['add_id' => $user_id, 'layanan_id' => $id_layanan, 'fp_id' => $id_fp]);
         if ($upload_eksist){
             foreach ($upload_eksist as $item){
-                $this->pendukung_surat_upload_m->delete($item->id);
+                $this->ref_fp_upload_m->delete($item->id);
                 unlink('assets/image/Dokumen/'.$item->path_upload);
             }
         }
@@ -52,10 +59,10 @@ class Luser extends REST_Controller {
         $this->load->library('upload', [
             'upload_path' => $upload_path,
             'allowed_types' => 'jpg|jpeg|png',
-            'file_name' => $user_id.'-'.$id_surat.'-'.$nama_dokumen
+            'file_name' => $user_id.'-'.$id_layanan.'-'.$id_fp
         ]);
 
-        if (!$this->upload->do_upload('file_pendukung')) {
+        if (!$this->upload->do_upload('fp')) {
             $output['message'] = $this->upload->display_errors();
             $this->response($output);
         } else {
@@ -63,18 +70,18 @@ class Luser extends REST_Controller {
         }        
         
         $data_insert = [
-            'id_surat' => $id_surat,
-            'user_id' => $user_id,
+            'layanan_id' => $id_layanan,
+            'add_id' => $user_id,
             'status_upload' => true,
-            'nama_dokumen' => $nama_dokumen,
+            'fp_id' => $id_fp,
             'path_upload' => $data['file_name']            
         ];
         
-        $insert = $this->pendukung_surat_upload_m->save($data_insert);
+        $insert = $this->ref_fp_upload_m->save($data_insert);
         
         if ($insert){
             $output['status'] = true;
-            $output['message'] = $nama_dokumen. " berhasil diupload";
+            $output['message'] = $id_fp. " berhasil diupload";
         }
 
         $this->response($output);        

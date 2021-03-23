@@ -9,6 +9,7 @@
         <title><?= $title ?> - <?= APP_TITLE?></title>
         <link href="<?= base_url()?>assets/css/styles.css" rel="stylesheet" />
         <link href="<?= base_url()?>assets/dataTables/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="<?= base_url()?>assets/css/animate.min.css" rel="stylesheet" />
         <link href="<?= base_url()?>assets/dataTables/buttons.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" />
         <link href="<?= base_url()?>assets/dataTables/dataTables.select.min.css" rel="stylesheet" crossorigin="anonymous" />
         <link href="<?= base_url()?>assets/select2/select2.min.css" rel="stylesheet" crossorigin="anonymous" />

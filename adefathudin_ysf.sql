@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5deb2
+-- version 4.6.6deb5ubuntu0.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 22, 2021 at 11:37 PM
--- Server version: 8.0.22-0ubuntu0.20.04.3
--- PHP Version: 7.4.3
+-- Generation Time: Mar 23, 2021 at 04:39 PM
+-- Server version: 10.1.47-MariaDB-0ubuntu0.18.04.1
+-- PHP Version: 7.2.24-0ubuntu0.18.04.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -31,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `ci_sessions` (
   `id` varchar(40) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
-  `timestamp` int UNSIGNED NOT NULL DEFAULT '0',
+  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `data` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -44,6 +42,7 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('07hn8o6i1tc405fut4hgsidjrbhpo4s5', '127.0.0.1', 1615972528, '__ci_last_regenerate|i:1615972528;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('09agrgbeq983n170jja1lj7l3lodnnpq', '127.0.0.1', 1616039562, '__ci_last_regenerate|i:1616039562;'),
 ('0grmbu6nmn1196e0s7srnto6ic599uhe', '127.0.0.1', 1616122250, '__ci_last_regenerate|i:1616122250;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('0lo5vksn11a5ojou0hvoov0igcckhkjk', '127.0.0.1', 1616481873, '__ci_last_regenerate|i:1616481873;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('0t6i5gvni2nbvbe8rhniia3k9srnsoq2', '127.0.0.1', 1615945074, '__ci_last_regenerate|i:1615945074;'),
 ('0utvc9kh7n7i15t30r236gv0kdah8j9c', '127.0.0.1', 1616135805, '__ci_last_regenerate|i:1616135805;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('127bfljmq3oo9jolcdn9les9d6nlv53s', '127.0.0.1', 1616375974, '__ci_last_regenerate|i:1616375974;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
@@ -66,12 +65,16 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('382oc14l65p77689qavoeo17jf8g0rc0', '127.0.0.1', 1616378140, '__ci_last_regenerate|i:1616378140;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('3fnop7q3n65akva5u72emgv38p4404uq', '127.0.0.1', 1615952166, '__ci_last_regenerate|i:1615952166;'),
 ('3goincqs81sjto9qu4fvelfg88l47nmt', '127.0.0.1', 1616121242, '__ci_last_regenerate|i:1616121242;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('3htf9oi052tk2se9e95pvvspitp3tbad', '127.0.0.1', 1616482293, '__ci_last_regenerate|i:1616482293;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('3mss0q8772f9hioo9j9lmcqgt6jk2o0d', '127.0.0.1', 1616051726, '__ci_last_regenerate|i:1616051726;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('3ujje2k00coa6gnp76b98ub18mq50pup', '::1', 1616079210, '__ci_last_regenerate|i:1616079210;'),
 ('3v3qnha0rj0ujqj67m846blm99195k7h', '127.0.0.1', 1616416171, '__ci_last_regenerate|i:1616416171;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('458r452jtbnlreejta4bif6gcgmklot4', '127.0.0.1', 1616086788, '__ci_last_regenerate|i:1616086788;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('45939nkl0ek45ak4rvf9mh3n6qmiq2p5', '127.0.0.1', 1616405307, '__ci_last_regenerate|i:1616405288;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('465q0kou5a3elj52a1nb9693n7m8dl8u', '127.0.0.1', 1616485809, '__ci_last_regenerate|i:1616485809;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('4kcq3mqqiq6u1indt1kqdhk62snmcm94', '127.0.0.1', 1615952465, '__ci_last_regenerate|i:1615952465;'),
+('4l4k327d61db3ook6odcfha8la6hhh74', '127.0.0.1', 1616490249, '__ci_last_regenerate|i:1616490249;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('4mfif8jrn0cc53lemt83neqh5f792j0v', '127.0.0.1', 1616467203, '__ci_last_regenerate|i:1616467203;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('4neslpulb013tcko2del44ujlbcbq1v5', '127.0.0.1', 1615897445, '__ci_last_regenerate|i:1615897445;'),
 ('4qd7bqcnr1161mnf65dvn2iei48b73uv', '127.0.0.1', 1616244579, '__ci_last_regenerate|i:1616244579;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('4u98ifvfhtjv84ctv4igeh2or9sag8s3', '127.0.0.1', 1616161508, '__ci_last_regenerate|i:1616161508;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
@@ -92,7 +95,9 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('7crjui5hlsqceqi4brahk1ujgua4qpls', '127.0.0.1', 1616166024, '__ci_last_regenerate|i:1616165937;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('7iopd3nfah5ouuu0suhfi44gi7an6u2e', '127.0.0.1', 1616389410, '__ci_last_regenerate|i:1616389410;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('7oejj2hv9dsnhk5iol0doj8bho9frklv', '::1', 1616081581, '__ci_last_regenerate|i:1616081576;'),
+('7r9ksqinl90kjtuiasjdfhvcuf452oc1', '127.0.0.1', 1616485090, '__ci_last_regenerate|i:1616485090;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('81r6teaup55d41545602juvem44lk9g7', '127.0.0.1', 1615970998, '__ci_last_regenerate|i:1615970998;has_loggedin|b:1;id|s:2:\"11\";user_id|s:32:\"5663eb373c84f558af480f80fb5bf980\";email|s:5:\"a@a.c\";password|s:32:\"202cb962ac59075b964b07152d234b70\";blokir|s:1:\"0\";'),
+('83ctanu7sn06gpo4h7r92lshghcdi3n7', '127.0.0.1', 1616474325, '__ci_last_regenerate|i:1616474325;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('8a14nu7vk1hcvma17mp7vfomm0ub1hos', '127.0.0.1', 1616121923, '__ci_last_regenerate|i:1616121923;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('8aqubiqgh3a7sc1edn6uihmtpk3l4hi9', '127.0.0.1', 1616050565, '__ci_last_regenerate|i:1616050565;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('8d4n92q04q8b3v05kg51u25kjd85eqto', '127.0.0.1', 1615800706, '__ci_last_regenerate|i:1615800706;'),
@@ -103,6 +108,8 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('9gpejbpn847meijrj1qh09oh417hoftt', '127.0.0.1', 1616379692, '__ci_last_regenerate|i:1616379692;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('9su1bqdh9daroihr3c4kdmm5g9q31j65', '127.0.0.1', 1616380146, '__ci_last_regenerate|i:1616380146;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('a6hk8s9n1fa0ts9c8i9inrl4h8esa7mq', '127.0.0.1', 1616134077, '__ci_last_regenerate|i:1616134077;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('a882i0fjn8jsgnn6famt1411m8g67qcq', '127.0.0.1', 1616478157, '__ci_last_regenerate|i:1616478157;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('aecv3p50ijh5e1ol389904ir63e9c890', '127.0.0.1', 1616491100, '__ci_last_regenerate|i:1616491086;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('anjnod8n3mujrlr0fud2mik9efbl2kmk', '127.0.0.1', 1616380675, '__ci_last_regenerate|i:1616380675;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('atb3gkl54ac8ocllqujnk55jjc9gr0ud', '127.0.0.1', 1616374129, '__ci_last_regenerate|i:1616374129;'),
 ('b1ku14b2f1s5109083mrlc1eaje4qjol', '127.0.0.1', 1616163075, '__ci_last_regenerate|i:1616162949;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
@@ -119,6 +126,8 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('cq63dkooc74h2lrmmo7edch9sjsb8sos', '127.0.0.1', 1616388904, '__ci_last_regenerate|i:1616388904;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('cs58jlb60jr17i4b5lt25dmgk5vl4bum', '127.0.0.1', 1615950199, '__ci_last_regenerate|i:1615950199;'),
 ('d80a3mn9tnhdgj60rl1ira2lbra4oj94', '127.0.0.1', 1615895299, '__ci_last_regenerate|i:1615895299;'),
+('dbdev6c34uh0sp671vnkgdhhj5sggqs6', '127.0.0.1', 1616467039, '__ci_last_regenerate|i:1616467039;'),
+('dhp0rh04dm2u4c5j9dpqs61pds1cc6ig', '127.0.0.1', 1616467038, '__ci_last_regenerate|i:1616467038;'),
 ('e296q34tgidpki5bnn7frl4m36a7gqo1', '127.0.0.1', 1616120832, '__ci_last_regenerate|i:1616120832;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('e3fm8784v95t36l9he54b8aiqo9insds', '127.0.0.1', 1615945103, '__ci_last_regenerate|i:1615945103;'),
 ('ekkskii11scbg4df0arvm78rnotja0n4', '127.0.0.1', 1616039879, '__ci_last_regenerate|i:1616039879;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
@@ -150,6 +159,7 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('j35aknimu0acuj1spc8g6ojoeoron4cp', '127.0.0.1', 1616040618, '__ci_last_regenerate|i:1616040618;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('j65rsp9acqgp2b9ehu4h5u6sbv3rb18d', '127.0.0.1', 1616393799, '__ci_last_regenerate|i:1616393799;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('jecdiqjndrjmi1ssju7sbjsmls1ngqg2', '127.0.0.1', 1616159552, '__ci_last_regenerate|i:1616159552;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('jerd2iaac7ck6mf3n2c4ibcjk6nkhu1v', '127.0.0.1', 1616486203, '__ci_last_regenerate|i:1616486203;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('jiau3on5u53c1gpv34a1eoeohffo4ruf', '::1', 1616081576, '__ci_last_regenerate|i:1616081576;'),
 ('jvf6svn6lv3g5u5rdhmhtgpaucf6tuj9', '127.0.0.1', 1615961955, '__ci_last_regenerate|i:1615961955;has_loggedin|b:1;id|s:1:\"4\";user_id|s:32:\"d4239bd5e6b182bd99a2ed9255e8e334\";email|s:5:\"a@a.c\";password|s:32:\"d41d8cd98f00b204e9800998ecf8427e\";blokir|s:1:\"0\";'),
 ('k0opjjnthq1l9drldanb8fvgnvuembdh', '127.0.0.1', 1615972154, '__ci_last_regenerate|i:1615972154;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
@@ -158,11 +168,13 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('kqa2cg16dm9k1bqn7vkd06jj7fkq2ioh', '127.0.0.1', 1616387646, '__ci_last_regenerate|i:1616387646;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('l3kvscr61hp8or1u50sdta03jaa5m7i5', '127.0.0.1', 1616165937, '__ci_last_regenerate|i:1616165937;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('l5iv79lsdnhqf5uaj9uut69vvkhh984u', '127.0.0.1', 1616050113, '__ci_last_regenerate|i:1616050113;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('lf21239hmosbblu2sqfo81mi4jik00b4', '127.0.0.1', 1616469520, '__ci_last_regenerate|i:1616467203;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('llgvs5ootuepjg57spfn3ou3in8hqdfi', '127.0.0.1', 1616416668, '__ci_last_regenerate|i:1616416668;'),
 ('ltllhe3aj0lj1ls3j7tavlq4sbtsvor6', '127.0.0.1', 1616405329, '__ci_last_regenerate|i:1616405329;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('mak5d3prkqlh40vefbj4kg55hj27ovsd', '127.0.0.1', 1616245333, '__ci_last_regenerate|i:1616245333;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('mbbfr2p2p76o0nrbb2flhakgl8tg33ih', '127.0.0.1', 1615970678, '__ci_last_regenerate|i:1615970678;has_loggedin|b:1;id|s:2:\"11\";user_id|s:32:\"5663eb373c84f558af480f80fb5bf980\";email|s:5:\"a@a.c\";password|s:32:\"202cb962ac59075b964b07152d234b70\";blokir|s:1:\"0\";'),
 ('mj5lqo1omudpchrls5a6su62osats6gt', '127.0.0.1', 1616383784, '__ci_last_regenerate|i:1616383784;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('mr51beeqvvbh9ri98ruuchr1v9en2a85', '127.0.0.1', 1616482928, '__ci_last_regenerate|i:1616482928;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('n3270ld2igcokhd0efgig2u979f1v7u9', '127.0.0.1', 1615961768, '__ci_last_regenerate|i:1615961768;'),
 ('n54voi8o5pelhmuq79kn4ifqetafgeo4', '127.0.0.1', 1616121601, '__ci_last_regenerate|i:1616121601;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('n5vbgk4qg13b3tohvv9b6fs5uqr4jg38', '127.0.0.1', 1616391620, '__ci_last_regenerate|i:1616391620;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
@@ -189,13 +201,17 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('q0pujbqn1bakd5o5ukc8afs8lpi2k40t', '127.0.0.1', 1616077019, '__ci_last_regenerate|i:1616077019;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('q5b5cqbpim941m69ht6pregaa8cctocb', '127.0.0.1', 1616042074, '__ci_last_regenerate|i:1616042074;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('q5odj59uaeo2bbk18v0vrdmqrmg20u77', '127.0.0.1', 1616081280, '__ci_last_regenerate|i:1616081280;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('q6l0eu3h3otucse42ai4f5ho1gr4qopg', '127.0.0.1', 1616474982, '__ci_last_regenerate|i:1616474982;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('q814qfoj929e4i1cufshjv13kt7f93kp', '127.0.0.1', 1616416668, '__ci_last_regenerate|i:1616416668;'),
 ('qd4shvuj2rnkh33cakhmv1hjkl74ev5o', '127.0.0.1', 1615968973, '__ci_last_regenerate|i:1615968973;has_loggedin|b:1;id|s:1:\"5\";user_id|s:32:\"d4239bd5e6b182bd99a2ed9255e8e334\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('qgacu9ganl1ac9di1tatt0husvkugt2g', '127.0.0.1', 1616491086, '__ci_last_regenerate|i:1616491086;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('qmsdqobbodnoc6rcnn7a7kpvks7tqnch', '127.0.0.1', 1616136333, '__ci_last_regenerate|i:1616136333;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('qsrv36vmsq1aufs9amu86h11615u9j7m', '127.0.0.1', 1616466867, '__ci_last_regenerate|i:1616466867;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('qve696b4mit2l340c0seijo28r96ksti', '127.0.0.1', 1616042405, '__ci_last_regenerate|i:1616042405;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('qvrmpc3co37binuvrmqfdefrpd7d4f1j', '127.0.0.1', 1616383091, '__ci_last_regenerate|i:1616383091;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('r4lkb75gtatlgifo0i4l160kd6p9cr4r', '127.0.0.1', 1616245851, '__ci_last_regenerate|i:1616245851;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('r5mvd68qg53mprr7eium7p0ub8ji3esl', '127.0.0.1', 1615952451, '__ci_last_regenerate|i:1615952351;'),
+('r6r3pn0o2qg79t1use8s71ovpr3bfq6e', '127.0.0.1', 1616490610, '__ci_last_regenerate|i:1616490610;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('r9jjplq9h4sed7pfn0ua86pjesdooht1', '127.0.0.1', 1615969491, '__ci_last_regenerate|i:1615969491;has_loggedin|b:1;id|s:1:\"5\";user_id|s:32:\"d4239bd5e6b182bd99a2ed9255e8e334\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('rgcrvafvlj4t33djqdhgrnfu4vt12rgs', '127.0.0.1', 1615957089, '__ci_last_regenerate|i:1615957089;'),
 ('rmc7r08r7601f1tqmb7gf0f8r5brmggi', '127.0.0.1', 1615972716, '__ci_last_regenerate|i:1615972528;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
@@ -207,6 +223,7 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('spm6bne84uag57klfcuht9utmnpuleof', '127.0.0.1', 1616391245, '__ci_last_regenerate|i:1616391245;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('sq6dkmu7m9d4si16c3ami5bssoi9utq9', '127.0.0.1', 1616387342, '__ci_last_regenerate|i:1616387342;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('t307cqf3u6a8veo72spedq71t2uktq5n', '127.0.0.1', 1616383416, '__ci_last_regenerate|i:1616383416;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('t5jhjffc5v13tpnqm44ec5aensp84gmt', '127.0.0.1', 1616484641, '__ci_last_regenerate|i:1616484641;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('tdfn6ie8dhjv82thpueole634b0qqves', '127.0.0.1', 1615948207, '__ci_last_regenerate|i:1615948207;'),
 ('tust9esicq4qbrp56lfhtv7km6d0fuha', '127.0.0.1', 1616342523, '__ci_last_regenerate|i:1616342523;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('u8e3musmk7ihihvcnb6735vtr9eu514h', '127.0.0.1', 1616080622, '__ci_last_regenerate|i:1616080622;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
@@ -215,7 +232,8 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('v1j4voahcls2c8kbrs3r8gnr6tqjkdvm', '127.0.0.1', 1616392449, '__ci_last_regenerate|i:1616392449;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('v47hv9fl47cbpa3c3qognoam4519iqas', '127.0.0.1', 1616136699, '__ci_last_regenerate|i:1616136699;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
 ('v49bi47cb1mb5p56ujqaj6tp39h9n7q0', '127.0.0.1', 1616076523, '__ci_last_regenerate|i:1616076523;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
-('v94t753d4f494nth5mvi3b36f0mftfv9', '127.0.0.1', 1616382132, '__ci_last_regenerate|i:1616382132;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";');
+('v94t753d4f494nth5mvi3b36f0mftfv9', '127.0.0.1', 1616382132, '__ci_last_regenerate|i:1616382132;has_loggedin|b:1;id|s:2:\"13\";user_id|s:32:\"e807f1fcf82d132f9bb018ca6738a19f\";email|s:10:\"mail@a.com\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";'),
+('vs0b2a5tlkk1bu03gmoec6qs2pve6gif', '127.0.0.1', 1616479193, '__ci_last_regenerate|i:1616479193;has_loggedin|b:1;id|s:2:\"14\";user_id|s:32:\"aad8600793f244d138ebf228fa786fcf\";email|s:5:\"a@a.c\";password|s:32:\"c4ca4238a0b923820dcc509a6f75849b\";blokir|s:1:\"0\";');
 
 -- --------------------------------------------------------
 
@@ -224,7 +242,7 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 --
 
 CREATE TABLE `laporan` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `nama_laporan` varchar(50) NOT NULL,
   `kategori` varchar(50) NOT NULL,
   `deskripsi` varchar(500) NOT NULL,
@@ -249,7 +267,7 @@ CREATE TABLE `laporan` (
 --
 
 CREATE TABLE `migrations` (
-  `version` bigint NOT NULL
+  `version` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -266,7 +284,7 @@ INSERT INTO `migrations` (`version`) VALUES
 --
 
 CREATE TABLE `notifikasi` (
-  `notifikasi_id` int NOT NULL,
+  `notifikasi_id` int(11) NOT NULL,
   `user_id` varchar(32) NOT NULL,
   `level` varchar(15) NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -278,41 +296,13 @@ CREATE TABLE `notifikasi` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pendukung_surat_upload`
---
-
-CREATE TABLE `pendukung_surat_upload` (
-  `id` int NOT NULL,
-  `id_surat` varchar(13) DEFAULT NULL,
-  `user_id` varchar(32) DEFAULT NULL,
-  `status_upload` tinyint(1) DEFAULT NULL,
-  `nama_dokumen` varchar(50) DEFAULT NULL,
-  `path_upload` varchar(150) DEFAULT NULL,
-  `upload_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `pendukung_surat_upload`
---
-
-INSERT INTO `pendukung_surat_upload` (`id`, `id_surat`, `user_id`, `status_upload`, `nama_dokumen`, `path_upload`, `upload_time`) VALUES
-(24, '5ece4797eaf5e', 'e807f1fcf82d132f9bb018ca6738a19f', 1, 'KTP', 'e807f1fcf82d132f9bb018ca6738a19f-5ece4797eaf5e-KTP.png', '2021-03-19 20:25:40'),
-(25, '5ece4797eaf5e', 'e807f1fcf82d132f9bb018ca6738a19f', 1, 'Kartu Keluarga', 'e807f1fcf82d132f9bb018ca6738a19f-5ece4797eaf5e-Kartu_Keluarga.png', '2021-03-19 20:25:47'),
-(26, '5ece4797eaf5e', 'e807f1fcf82d132f9bb018ca6738a19f', 1, 'Surat RT/RW', 'e807f1fcf82d132f9bb018ca6738a19f-5ece4797eaf5e-Surat_RTRW.png', '2021-03-19 20:25:55'),
-(28, '5ece4797eaf5e', 'aad8600793f244d138ebf228fa786fcf', 1, 'Kartu Keluarga', 'aad8600793f244d138ebf228fa786fcf-5ece4797eaf5e-Kartu_Keluarga.png', '2021-03-19 20:45:48'),
-(29, '5ece4797eaf5e', 'aad8600793f244d138ebf228fa786fcf', 1, 'Surat RT/RW', 'aad8600793f244d138ebf228fa786fcf-5ece4797eaf5e-Surat_RTRW.png', '2021-03-19 20:45:57'),
-(30, '5ece4797eaf5e', 'aad8600793f244d138ebf228fa786fcf', 1, 'KTP', 'aad8600793f244d138ebf228fa786fcf-5ece4797eaf5e-KTP.png', '2021-03-20 19:24:54');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `ref_fp`
 --
 
 CREATE TABLE `ref_fp` (
-  `id` int NOT NULL,
-  `id_layanan` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `id_fp` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `id_layanan` varchar(16) NOT NULL,
+  `id_fp` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -332,6 +322,31 @@ INSERT INTO `ref_fp` (`id`, `id_layanan`, `id_fp`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ref_fp_upload`
+--
+
+CREATE TABLE `ref_fp_upload` (
+  `id` int(11) NOT NULL,
+  `layanan_id` varchar(16) DEFAULT NULL,
+  `fp_id` varchar(16) DEFAULT NULL,
+  `path_upload` varchar(150) DEFAULT NULL,
+  `status_upload` tinyint(1) DEFAULT NULL,
+  `add_id` varchar(32) DEFAULT NULL,
+  `upload_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ref_fp_upload`
+--
+
+INSERT INTO `ref_fp_upload` (`id`, `layanan_id`, `fp_id`, `path_upload`, `status_upload`, `add_id`, `upload_time`) VALUES
+(33, 'ln_60580e5518902', 'fp_605803dfc81bf', 'aad8600793f244d138ebf228fa786fcf-ln_60580e5518902-fp_605803dfc81bf.jpg', 1, 'aad8600793f244d138ebf228fa786fcf', '2021-03-23 14:55:29'),
+(34, 'ln_60580e5518902', 'fp_60580e4ae5caf', 'aad8600793f244d138ebf228fa786fcf-ln_60580e5518902-fp_60580e4ae5caf.png', 1, 'aad8600793f244d138ebf228fa786fcf', '2021-03-23 14:55:38'),
+(35, 'ln_6058654ddb1fb', 'fp_60586535be3dc', 'aad8600793f244d138ebf228fa786fcf-ln_6058654ddb1fb-fp_60586535be3dc.png', 1, 'aad8600793f244d138ebf228fa786fcf', '2021-03-23 15:01:22');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rel_fp`
 --
 
@@ -340,7 +355,7 @@ CREATE TABLE `rel_fp` (
   `desc_fp` varchar(50) NOT NULL,
   `add_id` varchar(32) NOT NULL,
   `add_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `rel_fp`
@@ -362,8 +377,8 @@ INSERT INTO `rel_fp` (`id_fp`, `desc_fp`, `add_id`, `add_time`) VALUES
 
 CREATE TABLE `rel_layanan` (
   `id_layanan` varchar(16) NOT NULL,
-  `desc_layanan` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `add_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `desc_layanan` varchar(50) NOT NULL,
+  `add_id` varchar(32) NOT NULL,
   `add_time` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -383,7 +398,7 @@ INSERT INTO `rel_layanan` (`id_layanan`, `desc_layanan`, `add_id`, `add_time`) V
 --
 
 CREATE TABLE `users_detail` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `user_id` varchar(32) NOT NULL,
   `nik` varchar(15) NOT NULL,
   `nama_lengkap` varchar(50) NOT NULL,
@@ -414,7 +429,7 @@ INSERT INTO `users_detail` (`id`, `user_id`, `nik`, `nama_lengkap`, `tempat_lahi
 --
 
 CREATE TABLE `users_login` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `user_id` varchar(32) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(360) NOT NULL,
@@ -452,15 +467,15 @@ ALTER TABLE `notifikasi`
   ADD PRIMARY KEY (`notifikasi_id`);
 
 --
--- Indexes for table `pendukung_surat_upload`
---
-ALTER TABLE `pendukung_surat_upload`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `ref_fp`
 --
 ALTER TABLE `ref_fp`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ref_fp_upload`
+--
+ALTER TABLE `ref_fp_upload`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -495,39 +510,32 @@ ALTER TABLE `users_login`
 -- AUTO_INCREMENT for table `laporan`
 --
 ALTER TABLE `laporan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  MODIFY `notifikasi_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pendukung_surat_upload`
---
-ALTER TABLE `pendukung_surat_upload`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
+  MODIFY `notifikasi_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `ref_fp`
 --
 ALTER TABLE `ref_fp`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `ref_fp_upload`
+--
+ALTER TABLE `ref_fp_upload`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `users_detail`
 --
 ALTER TABLE `users_detail`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `users_login`
 --
 ALTER TABLE `users_login`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-COMMIT;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

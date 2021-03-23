@@ -50,9 +50,10 @@ class Loperator extends REST_Controller {
         if ($search && $search['value']) {
             $this->db->like('nama_surat', $search['value']);
         }
-        $this->db->select('a.*,b.nama_lensgkap,b.status_jabatan');
+        $this->db->select('a.*,b.nama_lengkap,b.status_jabatan');
         $this->db->from('rel_layanan a');
         $this->db->join('users_detail b', 'a.add_id = b.user_id');
+        $this->db->group_by('a.id_layanan');
         
         $this->db->order_by($order_by, $order_dir);
         $this->db->offset($start)->limit($length);
@@ -88,7 +89,8 @@ class Loperator extends REST_Controller {
         
         $this->db->select('b.desc_fp');
         $this->db->from('ref_fp a,rel_fp b,rel_layanan c');
-        $this->db->where('a.id_layanan=c.id_layanan');
+        $this->db->where('a.id_layanan',$id_layanan);        
+        $this->db->where('c.id_layanan',$id_layanan);
         $this->db->where('a.id_fp=b.id_fp');
         $output['item'] = $this->db->get()->result();
         

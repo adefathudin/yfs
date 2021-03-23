@@ -19,11 +19,11 @@ class Luser extends MY_Controller {
                redirect('auth');
         }
         
-        $this->load->model('master_surat_m');
+        $this->load->model('rel_layanan_m');
         
         $this->data['title'] = 'Pengajuan Surat';
         $this->data['subview'] = 'user/pengajuan_index';
-        $this->data['master_surat'] = $this->master_surat_m->get();
+        $this->data['jenis_layanan'] = $this->rel_layanan_m->get();
 
         $this->load->view('_layout_main', $this->data);
     }

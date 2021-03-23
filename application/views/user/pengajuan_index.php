@@ -6,27 +6,24 @@
                 Jenis Surat
             </div>
             <div class="card-body">
-                <form class="form-inline get-persyaratan-surat" method="get" action="<?= base_url() ?>service/luser/pendukung_surat">
-                    <input type="hidden" name="user_id" value="<?= $data_user->user_id ?>"/>
+                <form class="form-inline get-fp-layanan" method="get" action="<?= base_url() ?>service/luser/fp_layanan">
                     <div class="form-group mb-2">
-                        <select class="form-control" name='id_surat'>
+                        <select class="form-control form-control-sm" name='id_layanan'>
                             <option>-</option>
                             <?php
                             $no = 1;
-                            foreach ($master_surat as $surat) {
-                                echo "<option value='" . $surat->id_surat . "'>" . $no++ . ". " . $surat->nama_surat . "</option>";
+                            foreach ($jenis_layanan as $layanan) {
+                                echo "<option value='" . $layanan->id_layanan . "'>" . $no++ . ". " . $layanan->desc_layanan . "</option>";
                             }
                             ?>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-secondary mx-sm-2 mb-2 btn-pilih-surat">Pilih</button>
+                    <button type="submit" class="btn btn-sm btn-secondary mx-sm-2 mb-2 btn-pilih-surat">Pilih</button>
                 </form>
                 <div class="alert alert-secondary small mt-3 alert-list-dokumen" role="alert">
                     Silahkan pilih jenis surat terlebih dahulu
                 </div>
                 <div class="list-group list-pendukung-surat">
-                </div>
-                <div class="mt-3 card list-pendukung-surat-eksist">
                 </div>
             </div>
         </div>
@@ -44,12 +41,36 @@
                 </div>
                 <form class="form-group form-upload-dokumen" method="post" action="<?= base_url() ?>service/luser/upload_dokumen">
                     <div class="input-hidden"></div>
-                    <input class="form-control" type="file" name="file_pendukung" required>
-                    <button class="btn btn-secondary mt-3 btn-upload-surat" type="submit">Upload</button>
+                    <input class="form-control form-control-sm" type="file" name="fp" required>
+                    <button class="btn btn-sm btn-secondary mt-3 btn-upload-surat" type="submit">Upload</button>
                 </form>
             </div>
         </div>        
     </div>
+    
+    
+    <div class="col-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-user-edit mr-1"></i>
+                Form Pengajuan
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                        </div>
+                    </div>
+                </form>
+                <div class="mt-3 card list-pendukung-surat-eksist">                    
+                <span class="small">No data available</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </div>
 
 <script src="<?= base_url() ?>assets/jQuery/jquery.validation.min.js"></script>
@@ -59,14 +80,14 @@
 
     $('.form-upload-dokumen').hide();
 
-    var $form = $(".get-persyaratan-surat");
+    var $form = $(".get-fp-layanan");
     $form.validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 url: $(form).attr('action'),
                 type: $(form).attr('method'),
                 beforeSubmit: function () {
-                    $(form).find('button[type="submit"]').attr('disabled', 'disabled').html('<i class="fa fa-spin fa-circle-notch"></i> Please wait...');
+                    //$(form).find('button[type="submit"]').attr('disabled', 'disabled').html('<i class="fa fa-spin fa-circle-notch"></i> Please wait...');
                 },
                 success: function (data) {
                     var i, status, upload_time;
@@ -76,19 +97,19 @@
                     $('.btn-upload-surat').attr('disabled', 'disabled');
 
                     if (data.status) {
-                        for (i = 0; i < data.dokumen.length; i++) {
-                            html += '<a href="#" data-id="' + data.dokumen[i].id_surat + '" data-dokumen="' + data.dokumen[i].nama_dokumen + '" class="list-group-item list-group-item-action upload-dokumen">' + data.dokumen[i].nama_dokumen + '</a>';
-                            $('.form-upload-dokumen').show();
+                        for (i = 0; i < data.fp_layanan.length; i++) {
+                            html += '<a href="#" data-layanan="' + data.fp_layanan[i].id_layanan + '" data-fp-desc="' + data.fp_layanan[i].desc_fp + '" data-fp="' + data.fp_layanan[i].id_fp + '" class="list-group-item list-group-item-action upload-dokumen">' + data.fp_layanan[i].desc_fp + '</a>';
+                            $('.form-upload-dokumen').show(1000);
 
                             $('.alert-list-dokumen').text('Silahkan klik dan upload ' + (i + 1) + ' dokumen persyaratan dibawah ini');
                         }
                         
-                        for (i = 0; i < data.dokumen_eksist.length; i++) {
-                            dok_eksist += '<a href="#" class="small list-group-item list-group-item-action"><i class="fa fa-images"></i> ' + data.dokumen_eksist[i].nama_dokumen + ' <span class="small font-italic">(uploaded '+data.dokumen_eksist[i].upload_time+')</span></a>';
+                        for (i = 0; i < data.fp_uploaded.length; i++) {
+                            dok_eksist += '<div class="show-fp small list-group-item list-group-item-action"><button data-fp="' +data.fp_uploaded[i].path_upload+ '" class="btn-show-image btn btn-light btn-sm"><i class="fa fa-images"></i></button> ' + data.fp_uploaded[i].desc_fp + ' <span class="small font-italic">(uploaded '+data.fp_uploaded[i].upload_time+')</span></div>';
                         }
                         
-                    } else {
-                    }
+                    } 
+                    
                     $('.list-pendukung-surat').html(html);
                     $('.list-pendukung-surat-eksist').html(dok_eksist);
                     $(form).find('button[type="submit"]').removeAttr('disabled').html('Pilih');
@@ -127,14 +148,30 @@
     
 
     $(document).on('click', '.upload-dokumen', function () {
-        var id_surat = $(this).attr('data-id');
-        var nama_dokumen = $(this).attr('data-dokumen');
+        var id_layanan = $(this).attr('data-layanan');
+        var id_fp = $(this).attr('data-fp');
+        var desc_fp = $(this).attr('data-fp-desc');
         
         $('.btn-upload-surat').removeAttr('disabled');
 
-        $('.input-hidden').html('<input type="hidden" name="id_surat" value="' + id_surat + '"/> <input type="hidden" name="user_id" value="<?= $data_user->user_id ?>"/> <input type="hidden" name="nama_dokumen" value="' + nama_dokumen + '"/>')
+        $('.input-hidden').html('<input type="hidden" name="id_layanan" value="' + id_layanan + '"/> <input type="hidden" name="id_fp" value="' + id_fp + '"/>')
 
-        $('.label-upload').text(nama_dokumen);
+        $('.label-upload').text(desc_fp);
+    });
+    
+    $(document).on('click', '.btn-show-image', function () {
+        var fp_url = $(this).attr('data-fp');
+        Swal.fire({
+            imageUrl: '<?= base_url()?>assets/image/Dokumen/'+fp_url,
+            imageWidth: 600,
+            imageHeight: 300,
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            }
+          })
     })
 
 </script>
