@@ -25,7 +25,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="addLayananModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addEditLayananModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -35,9 +35,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form  class="form-add-layanan" method="post" action="<?= base_url() ?>service/loperator/add_layanan">
-                    <div class="form-group col-sm">
-                        <input type="text" class="form-control" name="nama_layanan" placeholder="Nama layanan">
+                <form  class="form-add-edit-layanan" method="post" action="<?= base_url() ?>service/loperator/add_layanan">
+                    <div class="form-group row col-sm">
+                        <label class="col-sm-4 col-form-label">ID Layanan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="id_layanan form-control" name="id_layanan" placeholder="Auto generate" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm">
+                        <label class="col-sm-4 col-form-label">Nama Layanan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="nama_layanan form-control" name="nama_layanan" placeholder="">
+                        </div>
                     </div>
                     <div class="form-group col-sm-12" required name>                        
                         <label>Persyaratan :</label>
@@ -45,7 +54,7 @@
                     </div>
                     <hr>
                     <div class="form-group">
-                    <button type="submit" class="btn btn-secondary">add</button>
+                        <button type="submit" class="btn btn-secondary btn-add-edit-layanan"></button>
                     </div>
                 </form>
             </div>
@@ -166,8 +175,9 @@
                                     $('.list-master-fp').html(html);
                                 });
                                 
-                                $('#addLayananModal').find('.modal-title').text('Tambah Jenis Pelayanan');
-                                $('#addLayananModal').modal();
+                                $('#addEditLayananModal').find('.modal-title').text('Tambah Jenis Pelayanan');
+                                $('.btn-add-edit-layanan').html('<i class="fa fa-plus"></i> Tambah');
+                                $('#addEditLayananModal').modal();
                                 $('.form-control').val('');
                             }
                         },
@@ -229,22 +239,35 @@
                             text: '<i class="fa fa-edit"></i>',
                             className:'btn btn-sm btn-default',
                             enabled: false,
-                            action: function(e, dt, btn, config){
+                            action: function( e, dt, btn, config ){
                                 
-                                var $form = $('#formAddAccount');
                                 var $item = dt.row( { selected: true } ).data();
                                 
-                                $('#modalAddAccount').find('.modal-title').text('Edit Account');
-                                
-                                $form.find('[name="id"]').val($item.id);
-                                $form.find('[name="category"]').val($item.account_name);
-                                $form.find('[name="subject"]').val($item.subject);
-                                $form.find('[name="rkey1"]').val($item.rkey1);
-                                $form.find('[name="rkey2"]').val($item.rkey2);
-                                $form.find('[name="des"]').val($item.des);
+                                $('.list-master-fp').html('');
+                                $.ajax({
+                                    url:'<?= base_url() ?>service/loperator/fp',
+                                    type: 'GET',
+                                    dataType: 'json'
+                                }).then(function (data) {
+                                    var i;
+                                    var html = '';
+                                    if (data.status) {
+                                        for (i=0; i < data.item.length; i++){
+                                            html += '<div class="form-check">' +
+                                                    '<input class="form-check-input" type="checkbox" name="fp_layanan[]" value="'+data.item[i].id_fp+'" id="'+data.item[i].id_fp+'">' +
+                                                    '<label class="form-check-label" for="'+data.item[i].id_fp+'">'+data.item[i].desc_fp+'</label>' +
+                                                    '</div>';
+                                        }
+                                    } 
                                     
-                                $('#modalAddAccount').modal();
+                                    $('.list-master-fp').html(html);
+                                });
                                 
+                                $('#addEditLayananModal').find('.modal-title').text('Edit Jenis Pelayanan');
+                                $('.id_layanan').val($item.id_layanan);
+                                $('.nama_layanan').val($item.desc_layanan);
+                                $('.btn-add-edit-layanan').html('<i class="fa fa-edit"></i> Edit');
+                                $('#addEditLayananModal').modal();
                             }
                         }
                                 
@@ -267,7 +290,7 @@
                     ]
             });
 
-            $(".form-add-layanan").validate({
+            $(".form-add-edit-layanan").validate({
                 submitHandler: function (form) {
                     $(form).ajaxSubmit({
                         url: $(form).attr('action'),
@@ -287,7 +310,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
-                                $('#addLayananModal').modal('toggle');
+                                $('#addEditLayananModal').modal('toggle');
                             }
                             
                             $(form).find('button[type="submit"]').removeAttr('disabled').html('Pilih');

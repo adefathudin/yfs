@@ -28,6 +28,22 @@ class Loperator extends MY_Controller {
         $this->load->view('_layout_main', $this->data);
     }
     
+    public function informasi_pengajuan() {
+        
+        if (!$this->session->userdata('has_loggedin')) {
+               redirect('auth');
+        }
+        
+        $this->load->model('rel_fp_m');
+        
+        $this->data['title'] = 'Informasi Pengajuan';
+        $this->data['subview'] = 'operator/informasi_pengajuan_index';
+        $this->data['rel_fp'] = $this->rel_fp_m->get();
+
+        $this->load->view('_layout_main', $this->data);
+    }
+    
+    
     public function monitoring() {
         
         if (!$this->session->userdata('has_loggedin')) {

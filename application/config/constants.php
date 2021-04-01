@@ -89,6 +89,14 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 defined('APP_TITLE')    OR define('APP_TITLE', 'E-Governement');
 defined('APP_SUBTITLE')    OR define('APP_SUBTITLE', 'Kampung Sawah');
-defined('LEVEL1')    OR define('LEVEL1', 'Kampung Sawah');
+
+defined('LEVEL1')    OR define('LEVEL1', 'ka_ukpd');
 defined('LEVEL2')    OR define('LEVEL2', 'operator');
 defined('LEVEL3')    OR define('LEVEL3', 'user');
+
+defined('VERIFIKASI_DATA')    OR define('VERIFIKASI_DATA', '5');
+defined('REJECT_OPERATOR')    OR define('REJECT_OPERATOR', '4');
+defined('ACC_OPERATOR')    OR define('ACC_OPERATOR', '3');
+defined('REJECT_KA_UKPD')    OR define('REJECT_KA_UKPD', '2');
+defined('ACC_KA_UKPD')    OR define('ACC_KA_UKPD', '1');
+

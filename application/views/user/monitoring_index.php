@@ -5,24 +5,18 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered small" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
+                        <th>No.</th>
+                        <th>ID</th>
+                        <th>Jenis Pengajuan</th>
+                        <th>Status</th>
+                        <th>Keterangan</th>
+                        <th>Tgl. Pengajuan</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -179,15 +173,20 @@
                 },
 
                 ajax      : {
-                    url:"http://localhost/brisma/btt/index/service/genuse/auth_list",
+                    url:"<?= base_url() ?>service/luser/list_pengajuan",
                     type: "GET"
                 },
                 columns: [
-                    {data: 'account_name', class:'text-left'},
-                    {data: 'subject', class:'text-left'},
-                    {data: 'rkey1', class:'text-left'},
-                    {data: 'rkey2', class:'text-left'},
-                    {data: 'last_update', class:'text-left'}
+                    {data: null,"sortable": false, 
+                        render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                        }  
+                    },
+                    {data: 'id_pengajuan', class:'text-left'},
+                    {data: 'desc_layanan', class:'text-left'},
+                    {data: 'desc_status', class:'text-left'},
+                    {data: 'keterangan', class:'text-left'},
+                    {data: 'add_time', class:'text-left'}
                     ]
             });
         },

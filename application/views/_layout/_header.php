@@ -76,7 +76,7 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="<?= base_url()?>loperator/pengaturan_layanan">Pengaturan Layanan</a>
-                                    <a class="nav-link" href="<?= base_url()?>loperator/file_pendukung">File Pendukung</a>
+                                    <a class="nav-link" href="<?= base_url()?>loperator/informasi_pengajuan">Informasi Pengajuan</a>
                                 </nav>
                             </div>
                             
@@ -85,14 +85,11 @@
                                 Rekapitulasi Laporan
                             </a>
                             
-                            <?php } else if ($data_user->level == LEVEL2){ ?>
+                            <?php } else if ($data_user->level == LEVEL1){ ?>
                             
-                            <div class="sb-sidenav-menu-heading">User Approval</div>    
-                            
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                            <a class="nav-link" href="<?= base_url() ?>loperator/informasi_pengajuan">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                                 Pelayanan
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             
                             <?php }?>
