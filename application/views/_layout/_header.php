@@ -80,7 +80,7 @@
                                 </nav>
                             </div>
                             
-                            <a class="nav-link" href="<?= base_url() ?>">
+                            <a class="nav-link" href="<?= base_url() ?>loperator/rekapitulasi_laporan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Rekapitulasi Laporan
                             </a>

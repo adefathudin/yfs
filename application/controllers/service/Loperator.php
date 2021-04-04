@@ -230,25 +230,29 @@ class Loperator extends REST_Controller {
             }
         }
         
-        $this->db->from('ref_pesngajuan a');
-        $this->db->join('users_detail b', 'a.add_id = b.user_id');
-        $this->db->join('rel_status c', 'a.status_pengajuan = c.id_status');
-        $this->db->join('rel_layanan d', 'a.layanan_id = d.id_layanan');
-        $this->db->where('a.status_pengajuan', $stsp);
-        $this->db->group_by('a.id_pengajuan');
-        $totalRecords = $this->ref_pengajuan_m->get_count($where);
-
-        if ($search && $search['value']) {
-            $this->db->like('id_pengajuan', $search['value']);
-        }
-
+        $this->db->select('count(*) as found');
         $this->db->from('ref_pengajuan a');
         $this->db->join('users_detail b', 'a.add_id = b.user_id');
         $this->db->join('rel_status c', 'a.status_pengajuan = c.id_status');
         $this->db->join('rel_layanan d', 'a.layanan_id = d.id_layanan');
         $this->db->where('a.status_pengajuan', $stsp);
         $this->db->group_by('a.id_pengajuan');
-        $totalFiltered = $this->ref_pengajuan_m->get_count($where);
+        $totalRecords = $this->ref_pengajuan_m->get($where);
+        $totalRecords = $totalRecords == '' ? $totalRecords : "0";
+
+        if ($search && $search['value']) {
+            $this->db->like('id_pengajuan', $search['value']);
+        }
+
+        $this->db->select('count(*) as found');
+        $this->db->from('ref_pengajuan a');
+        $this->db->join('users_detail b', 'a.add_id = b.user_id');
+        $this->db->join('rel_status c', 'a.status_pengajuan = c.id_status');
+        $this->db->join('rel_layanan d', 'a.layanan_id = d.id_layanan');
+        $this->db->where('a.status_pengajuan', $stsp);
+        $this->db->group_by('a.id_pengajuan');
+        $totalFiltered = $this->ref_pengajuan_m->get($where);
+        $totalFiltered = $totalFiltered == '' ? $totalFiltered : "0";
 
         $output = array(
             "draw" => $draw,
@@ -333,6 +337,12 @@ class Loperator extends REST_Controller {
         
         if ($accept == 'accept') {
             $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $acc, $user_id => $this->session->userdata('user_id'), $note => ''], $id_pengajuan);
+            
+            if ($level == LEVEL1){
+                $html = "as";
+                $this->_laporan_pdf();
+            }
+            
         } else {
             
             $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $rej, $user_id => $this->session->userdata('user_id'), $note => $keterangan, 'is_open' => false], $id_pengajuan);
@@ -363,5 +373,29 @@ class Loperator extends REST_Controller {
         
         $this->response($output);
     }
+    
+    
+    
+    public function _laporan_pdf() {
+
+        $this->load->model('rel_fp_m');
+        
+        $data = $this->rel_fp_m->get();
+        
+        $this->load->library('pdf');
+        $html = '<center><h3>Daftar Nsdddassma Siswa</h3></center><hr/><br/>';
+        
+        foreach ($data as $a){
+            $html .= $a->desc_fp;
+        }
+        
+        $this->pdf->loadHtml($html);
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->render();
+        $output = $this->pdf->output();
+        file_put_contents("/mnt/d/file.pdf", $output);
+        
+    }
+
 
 }

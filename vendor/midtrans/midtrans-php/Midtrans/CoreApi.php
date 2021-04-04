@@ -18,7 +18,7 @@ class CoreApi
             'payment_type' => 'credit_card'
         );
 
-        if (array_key_exists('item_details', $params)) {
+        if (isset($params['item_details'])) {
             $gross_amount = 0;
             foreach ($params['item_details'] as $item) {
                 $gross_amount += $item['quantity'] * $item['price'];
@@ -31,6 +31,12 @@ class CoreApi
         if (Config::$isSanitized) {
             Sanitizer::jsonRequest($payloads);
         }
+
+        if (Config::$appendNotifUrl)
+            Config::$curlOptions[CURLOPT_HTTPHEADER][] = 'X-Append-Notification: ' . Config::$appendNotifUrl;
+
+        if (Config::$overrideNotifUrl)
+            Config::$curlOptions[CURLOPT_HTTPHEADER][] = 'X-Override-Notification: ' . Config::$overrideNotifUrl;
 
         $result = ApiRequestor::post(
             Config::getBaseUrl() . '/charge',

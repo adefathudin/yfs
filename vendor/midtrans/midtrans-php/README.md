@@ -9,7 +9,7 @@ Midtrans-PHP
 
 [Midtrans](https://midtrans.com) :heart: PHP!
 
-This is the Official PHP wrapper/library for Midtrans Payment API, that is compatible with Composer. Visit [https://midtrans.com](https://midtrans.com) for more information about the product and see documentation at [http://docs.midtrans.com](http://docs.midtrans) for more technical details.
+This is the Official PHP wrapper/library for Midtrans Payment API, that is compatible with Composer. Visit [https://midtrans.com](https://midtrans.com) for more information about the product and see documentation at [http://docs.midtrans.com](https://docs.midtrans.com) for more technical details.
 
 ## 1. Installation
 
@@ -35,17 +35,23 @@ add this require line to your `composer.json` file:
 
 and run `composer install` on your terminal.
 
+> **Note:** If you are using Laravel framework, in [some](https://laracasts.com/discuss/channels/general-discussion/using-non-laravel-composer-package-with-laravel?page=1#reply=461608) [case](https://stackoverflow.com/a/23675376) you also need to run `composer dumpautoload`
+
+> `/Midtrans` will then be available (auto loaded) as Object in your Laravel project.
+
 ### 1.b Manual Instalation
 
-If you are not using Composer, you can clone or [download](https://github.com/midtrans/midtrans-php/archive/master.zip) this repository. And try to require/autoload `Midtrans.php`.
+If you are not using Composer, you can clone or [download](https://github.com/midtrans/midtrans-php/archive/master.zip) this repository.
 
-## 2. How to Use
-
-If you are not using php framework, you must include `Midtrans.php` file on your code.
+Then you should require/autoload `Midtrans.php` file on your code.
 
 ```php
 require_once dirname(__FILE__) . '/pathofproject/Midtrans.php';
+
+// my code goes here
 ```
+
+## 2. How to Use
 
 ### 2.1 General Settings
 
@@ -59,6 +65,23 @@ require_once dirname(__FILE__) . '/pathofproject/Midtrans.php';
 // Set 3DS transaction for credit card to true
 \Midtrans\Config::$is3ds = true;
 ```
+
+#### Override Notification URL
+
+You can opt to change or add custom notification urls on every transaction. It can be achieved by adding additional HTTP headers into charge request.
+
+```php
+// Add new notification url(s) alongside the settings on Midtrans Dashboard Portal (MAP)
+Config::$appendNotifUrl = "https://example.com/test1,https://example.com/test2";
+// Use new notification url(s) disregarding the settings on Midtrans Dashboard Portal (MAP)
+Config::$overrideNotifUrl = "https://example.com/test1";
+```
+
+[More details](https://api-docs.midtrans.com/#override-notification-url)
+
+> **Note:** When both `appendNotifUrl` and `overrideNotifUrl` are used together then only `overrideNotifUrl` will be used.
+
+> Both header can only receive up to maximum of **3 urls**.
 
 ### 2.2 Choose Product/Method
 
