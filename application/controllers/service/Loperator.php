@@ -6,7 +6,7 @@ class Loperator extends REST_Controller {
 
     function __construct($config = 'rest') {
         parent::__construct($config);
-        $this->load->model(['ref_fp_m','rel_layanan_m','rel_fp_m','ref_pengajuan_m','ref_fp_upload_m']);
+        $this->load->model(['ref_fp_m','rel_layanan_m','rel_fp_m','ref_pengajuan_m','ref_fp_upload_m','users_detail_m']);
     }
     
     public function layanan_get(){
@@ -96,21 +96,32 @@ class Loperator extends REST_Controller {
         
         $this->response($output);
     }
+    
     public function add_layanan_post() {
         
         $output['status'] = true;
         $nama_layanan = $this->post('nama_layanan');
         $fp_layanan = $this->post('fp_layanan');
         $id_layanan = $this->post('id_layanan');
-        $id_layanan = $id_layanan != '' ? $id_layanan : 'LN_'.uniqid();
         
-        $data = [
-            'id_layanan' => $id_layanan,
-            'desc_layanan' => $nama_layanan,
-            'add_id' => $this->session->userdata('user_id')
-        ];
-        
-        $insert_layanan = $this->rel_layanan_m->save($data, $id_layanan);
+        if ($id_layanan != '') {
+            $data = [
+                'desc_layanan' => $nama_layanan,
+                'add_id' => $this->session->userdata('user_id')
+            ];
+            $ket = 'diedit';
+            $insert_layanan = $this->rel_layanan_m->save($data, $id_layanan);
+            
+        } else {
+            $id_layanan = 'LN_' . uniqid();
+            $data = [
+                'id_layanan' => $id_layanan,
+                'desc_layanan' => $nama_layanan,
+                'add_id' => $this->session->userdata('user_id')
+            ];
+            $ket = 'ditambahkan';
+            $insert_layanan = $this->rel_layanan_m->save($data);
+        }
         
         if ($insert_layanan){
             $this->db->query('delete from ref_fp where id_layanan="'.$id_layanan.'"');
@@ -119,7 +130,7 @@ class Loperator extends REST_Controller {
             }
             
             $output['status'] = true;
-            $output['message'] = "Layanan ".$nama_layanan." berhasil diedit";
+            $output['message'] = "Layanan ".$nama_layanan." berhasil ".$ket;
         }
         
         $this->response($output);
@@ -200,7 +211,6 @@ class Loperator extends REST_Controller {
 
         $this->response($output);        
     }
-    
     
     public function informasi_pengajuan_get(){
         
@@ -285,6 +295,80 @@ class Loperator extends REST_Controller {
         $this->response($output);
     }
     
+    public function rekapitulasi_laporan_get(){
+        
+        $draw = $this->get('draw');
+        $length = $this->get('length');
+        $start = $this->get('start');
+        $order = $this->get('order');
+        $columns = $this->get('columns');
+        $search = $this->get('search') ? $this->get('search') : NULL;
+        $level = $this->get('level');
+        
+        $order_by = $columns[$order[0]['column']]['data'];
+        $order_dir = $order[0]['dir'];
+
+        $count = array();
+        $where = false;
+
+        foreach ($columns as $col) {
+            if ($col['search']['value']) {
+                $where[$col['data']] = $col['search']['value'];
+            }
+        }
+        
+        $this->db->select('count(*) as found');
+        $this->db->from('ref_pengajuan a');
+        $this->db->join('users_detail b', 'a.add_id = b.user_id');
+        $this->db->join('rel_status c', 'a.status_pengajuan = c.id_status');
+        $this->db->join('rel_layanan d', 'a.layanan_id = d.id_layanan');
+        $this->db->group_by('a.id_pengajuan');
+        $totalRecords = $this->ref_pengajuan_m->get($where);
+        $totalRecords = $totalRecords == '' ? $totalRecords : "0";
+
+        if ($search && $search['value']) {
+            $this->db->like('id_pengajuan', $search['value']);
+        }
+
+        $this->db->select('count(*) as found');
+        $this->db->from('ref_pengajuan a');
+        $this->db->join('users_detail b', 'a.add_id = b.user_id');
+        $this->db->join('rel_status c', 'a.status_pengajuan = c.id_status');
+        $this->db->join('rel_layanan d', 'a.layanan_id = d.id_layanan');
+        $this->db->group_by('a.id_pengajuan');
+        $totalFiltered = $this->ref_pengajuan_m->get($where);
+        $totalFiltered = $totalFiltered == '' ? $totalFiltered : "0";
+
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalFiltered,
+            "data" => []
+        );
+
+        if ($search && $search['value']) {
+            $this->db->like('id_pengajuan', $search['value']);
+        }
+        
+        $this->db->select('a.*,b.nama_lengkap,c.desc_status,d.desc_layanan');
+        $this->db->from('ref_pengajuan a');
+        $this->db->join('users_detail b', 'a.add_id = b.user_id');
+        $this->db->join('rel_status c', 'a.status_pengajuan = c.id_status');
+        $this->db->join('rel_layanan d', 'a.layanan_id = d.id_layanan');
+        $this->db->group_by('a.id_pengajuan');
+        $this->db->order_by($order_by, $order_dir);
+        $this->db->offset($start)->limit($length);
+        $data = $this->ref_pengajuan_m->get_by($where);
+        
+        if ($data) {
+            foreach ($data as $item) {
+                $output['data'][] = $item;
+            }
+        }
+        
+        $this->response($output);
+    }
+    
     public function detail_pengajuan_get(){
         
         $output['status'] = false;
@@ -302,16 +386,79 @@ class Loperator extends REST_Controller {
         
         $this->db->select('nama_lengkap,status_jabatan,level');
         $this->db->where('user_id', $operator_id);
-        $result_operator = $this->db->get('users_detail')->result(); 
+        $result_operator = $this->db->get('users_detail')->result();
+        
+        $this->db->select('*');
+        $this->db->where('user_id', $user_id);
+        $result_user = $this->db->get('users_detail')->result(); 
         
         if ($result_fp_eksist){
             $output['status'] = true;
             $output['fp_eksist'] = $result_fp_eksist;
             $output['operator_name'] = $result_operator;
+            $output['user_name'] = $result_user;
         }
         
         $this->response($output);
         
+    }
+    
+    public function users_get(){
+         
+        $draw = $this->get('draw');
+        $length = $this->get('length');
+        $start = $this->get('start');
+        $order = $this->get('order');
+        $columns = $this->get('columns');
+        $search = $this->get('search') ? $this->get('search') : NULL;
+
+        $order_by = $columns[$order[0]['column']]['data'];
+        $order_dir = $order[0]['dir'];
+
+        $count = array();
+        $where = false;
+
+        foreach ($columns as $col) {
+            if ($col['search']['value']) {
+                $count[$col['data']] = $col['search']['value'];
+                $where[$col['data']] = $col['search']['value'];
+            }
+        }
+        
+        $this->db->where('level', LEVEL3);
+        $totalRecords = $this->users_detail_m->get_count($where);
+
+        if ($search && $search['value']) {
+            $this->db->like('nik', $search['value']);
+        }
+
+        $this->db->where('level', LEVEL3);
+        $totalFiltered = $this->users_detail_m->get_count($where);
+
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalFiltered,
+            "data" => []
+        );
+
+        if ($search && $search['value']) {
+            $this->db->like('nik', $search['value']);
+        }
+        
+        $this->db->where('level', LEVEL3);
+        $this->db->order_by($order_by, $order_dir);
+        $this->db->offset($start)->limit($length);
+
+        $data = $this->users_detail_m->get_by($where);
+
+        if ($data) {
+            foreach ($data as $item) {
+                $output['data'][] = $item;
+            }
+        }
+        
+        $this->response($output);
     }
     
     public function update_status_pengajuan_post() {
@@ -339,13 +486,12 @@ class Loperator extends REST_Controller {
             $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $acc, $user_id => $this->session->userdata('user_id'), $note => ''], $id_pengajuan);
             
             if ($level == LEVEL1){
-                $html = "as";
                 $this->_laporan_pdf();
             }
             
         } else {
             
-            $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $rej, $user_id => $this->session->userdata('user_id'), $note => $keterangan, 'is_open' => false], $id_pengajuan);
+            $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $rej, $user_id => $this->session->userdata('user_id'), $note => $keterangan, 'is_open' => true], $id_pengajuan);
             
             if ($fp != '') {
                 for ($i = 0; $i < count($fp); $i++) {
@@ -374,8 +520,6 @@ class Loperator extends REST_Controller {
         $this->response($output);
     }
     
-    
-    
     public function _laporan_pdf() {
 
         $this->load->model('rel_fp_m');
@@ -383,11 +527,213 @@ class Loperator extends REST_Controller {
         $data = $this->rel_fp_m->get();
         
         $this->load->library('pdf');
-        $html = '<center><h3>Daftar Nsdddassma Siswa</h3></center><hr/><br/>';
         
-        foreach ($data as $a){
-            $html .= $a->desc_fp;
-        }
+        $html = '<table width="90%">
+<tbody>
+<tr style="height: 22px;">
+<td style="height: 22px;">LOGO </td>
+<td style="height: 22px;">PROV </td>
+<td style="height: 22px;">&nbsp;:</td>
+<td style="height: 22px;">{} </td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+</tr>
+<tr style="height: 22px;">
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;KOTA</td>
+<td style="height: 22px;">&nbsp;:</td>
+<td style="height: 22px;">&nbsp;{}</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+</tr>
+<tr style="height: 22px;">
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;KEC</td>
+<td style="height: 22px;">&nbsp;:</td>
+<td style="height: 22px;">&nbsp;{}</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;Model</td>
+<td style="height: 22px;">: </td>
+<td style="height: 22px;">{} </td>
+</tr>
+<tr style="height: 22px;">
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;KEL</td>
+<td style="height: 22px;">&nbsp;:</td>
+<td style="height: 22px;">&nbsp;{}</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;Kode kel</td>
+<td style="height: 22px;">&nbsp;:</td>
+<td style="height: 22px;">&nbsp;{}</td>
+</tr>
+<tr style="height: 22px;">
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;Alamat&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+</tr>
+<tr style="height: 22px;">
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&lt;hr&gt;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+</tr>
+<tr style="height: 22px;">
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">surat keterangan</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+</tr>
+<tr style="height: 22px;">
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">Nomor</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+<td style="height: 22px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">Nama</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">data pengajuan</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">penutup</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">lokasi, date</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">ttd ybs</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">ttd lurah</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">no</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">tgl</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+<tr style="height: 22.2px;">
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">camat</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+<td style="height: 22.2px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<!-- DivTable.com -->
+<p>&nbsp;</p>';
         
         $this->pdf->loadHtml($html);
         $this->pdf->setPaper('A4', 'potrait');

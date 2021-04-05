@@ -17,7 +17,7 @@
         <script src="<?= base_url()?>assets/jQuery/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
             
             <a class="navbar-brand" href="<?= base_url() ?>"><?= APP_TITLE ?></a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
@@ -40,18 +40,18 @@
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             
                             <div class="sb-sidenav-menu-heading">Main Menu</div>
-                            <a class="nav-link" href="<?= base_url() ?>dashboard">
+                            
+                            <?php if ($data_user->level == LEVEL3){ ?>
+
+                            <a class="nav-link" href="<?= base_url() ?>luser/dashboard">
                                 <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                                 Dashboard
                             </a>
-                            
-                            <?php if ($data_user->level == LEVEL3){ ?>
-                            
                             <a class="nav-link" href="<?= base_url() ?>luser/pengajuan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                                 Pengajuan
@@ -63,6 +63,10 @@
                             
                             <?php } else if ($data_user->level == LEVEL2){ ?>
                             
+                            <a class="nav-link" href="<?= base_url() ?>loperator/dashboard">
+                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                                Dashboard
+                            </a>
                             <a class="nav-link" href="<?= base_url() ?>loperator/users">
                                 <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
                                 Manajemen Users
@@ -87,6 +91,10 @@
                             
                             <?php } else if ($data_user->level == LEVEL1){ ?>
                             
+                            <a class="nav-link" href="<?= base_url() ?>loperator/dashboard">
+                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                                Dashboard
+                            </a>
                             <a class="nav-link" href="<?= base_url() ?>loperator/informasi_pengajuan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                                 Pelayanan

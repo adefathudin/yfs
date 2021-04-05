@@ -10,8 +10,14 @@ class Auth extends MY_Controller {
     public function index() {
 
         if (!empty($this->session->userdata('has_loggedin'))) {
-            redirect('dashboard');
-            exit();
+            $data = $this->users_detail_m->get_by(['user_id' => $this->session->userdata('user_id')]);
+            foreach ($data as $a){
+                if ($a->level == LEVEL3) {
+                    redirect('luser/dashboard');
+                } else {
+                    redirect('loperator/dashboard');
+                }
+            }
         }
         $this->load->view('login');
     }
@@ -24,7 +30,14 @@ class Auth extends MY_Controller {
         $login_service = $this->userlib->login($email, $password);
         
         if ($login_service) {
-            redirect(base_url('dashboard'));
+            $data = $this->users_detail_m->get_by(['user_id' => $this->session->userdata('user_id')]);
+            foreach ($data as $a){
+                if ($a->level == LEVEL3) {
+                    redirect('luser/dashboard');
+                } else {
+                    redirect('loperator/dashboard');
+                }
+            }
         } else {
             $this->session->set_flashdata('message', 'user atau password salah');
             redirect(base_url('auth'));

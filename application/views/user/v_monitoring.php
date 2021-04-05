@@ -1,5 +1,9 @@
 
 <div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        
+    </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered small" id="dataTable" width="100%" cellspacing="0">
@@ -7,7 +11,6 @@
                     <tr>
                         <th>No.</th>
                         <th>ID Pengajuan</th>
-                        <th>Nama Pemohon</th>
                         <th>Jenis Pengajuan</th>
                         <th>Tgl. Pengajuan</th>
                         <th>Keterangan</th>
@@ -123,25 +126,7 @@
                                 }).then(function (data) {
                                     var i;
                                     if (data.status) {
-                                        
-                                        for (i=0;i<data.user_name.length;i++){
-                                            detail += 
-                                                    '<tr bgcolor="#e6f9ff"><td colspan="3" class="text-center">Data Pemohon</td></tr>' +
-                                                    '<tr><td>Nama Pemohon</td><td>:</td><td>'+data.user_name[i].nama_lengkap+'</tr>' +
-                                                    '<tr><td>NIK</td><td>:</td><td>'+data.user_name[i].nik+'</tr>' +
-                                                    '<tr><td>TTL</td><td>:</td><td>'+data.user_name[i].tempat_lahir + ', ' +
-                                                        data.user_name[i].tanggal_lahir+'</tr>' +
-                                                    '<tr><td>Jenis Kelamin</td><td>:</td><td>'+data.user_name[i].jenis_kelamin+'</tr>' +
-                                                    '<tr><td>Alamat</td><td>:</td><td>'+data.user_name[i].alamat+'</tr>' +
-                                                    '<tr><td>Email</td><td>:</td><td>'+data.user_name[i].email+'</tr>' +
-                                                    '<tr><td>No. HP</td><td>:</td><td>'+data.user_name[i].nomor_hp+'</tr>' +
-                                                    '<tr><td>KTP</td><td>:</td><td>\n\
-                                                        <a class="btn btn-sm btn-light show-ktp" data-url="'+data.user_name[i].ktp+'">\n\
-                                                        <i class="fa fa-image"></i></a></tr>';
-                                        }
-                                        
                                         detail +=
-                                                '<tr bgcolor="#e6f9ff"><td colspan="3" class="text-center">Data Pengajuan</td></tr>' +
                                                 '<input type="hidden" name="id_pengajuan" value="'+$item.id_pengajuan+'">' +
                                                 '<tr><td>ID Pengajuan</td><td>:</td><td>'+$item.id_pengajuan+'</td></tr>' + 
                                                 '<tr><td>Jenis Layanan</td><td>:</td><td>'+$item.desc_layanan+'</td></tr>' +
@@ -204,9 +189,8 @@
                     ]
                 },
                 ajax      : {
-                    url:"<?= base_url() ?>service/loperator/informasi_pengajuan",
-                    type: "GET",
-                    data: {level:'<?= $data_user->level ?>'}
+                    url:"<?= base_url() ?>service/luser/list_pengajuan",
+                    type: "GET"
                 },
                 columns: [
                     {data: null,"sortable": false, 
@@ -217,7 +201,6 @@
                     {data: 'id_pengajuan', class:'text-left'},
                     {data: 'nama_lengkap', class:'text-left'},
                     {data: 'desc_layanan', class:'text-left'},
-                    {data: 'add_time', class:'text-left'},
                     {data: 'keterangan', class:'text-left'},
                     {data: 'desc_status', 
                         render: function (data, type, row, meta) {

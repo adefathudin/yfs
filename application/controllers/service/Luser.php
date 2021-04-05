@@ -43,7 +43,7 @@ class Luser extends REST_Controller {
             $output['status'] = true;
             $output['id_layanan'] = $id_layanan;
             $output['id_pengajuan'] = $id_pengajuan;
-            $output['status_pengajuan'] = $this->ref_pengajuan_m->get_count(['layanan_id' => $id_layanan, 'add_id' => $user_id, 'is_open' => true]);
+            $output['status_pengajuan'] = $this->ref_pengajuan_m->get_count(['layanan_id' => $id_layanan, 'add_id' => $user_id, 'is_open' => false]);
             $output['fp_uploaded'] = $result_fp_eksist;
             $output['fp_layanan'] = $result_fp;
         }                
@@ -70,7 +70,7 @@ class Luser extends REST_Controller {
         $this->load->library('upload', [
             'upload_path' => $upload_path,
             'allowed_types' => 'jpg|jpeg|png',
-            'file_name' => $user_id.'-'.$id_layanan.'-'.$id_fp
+            'file_name' => $user_id.'-'.$id_layanan.'-'.$id_fp.'-'. uniqid()
         ]);
 
         if (!$this->upload->do_upload('fp')) {
@@ -107,6 +107,7 @@ class Luser extends REST_Controller {
         $id_pengajuan = $this->post('id_pengajuan');
         
         if ($id_pengajuan == '') {
+            $id_pengajuan = "PN_".uniqid();
             $data = [
                 'id_pengajuan' => $id_pengajuan,
                 'layanan_id' => $id_layanan,

@@ -1,28 +1,23 @@
-<div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table mr-1"></i>
-        Data Pengajuan Surat
-    </div>
+<div class="card mb-4 small">
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
+                        <th>No.</th>
+                        <th>NIK</th>
+                        <th>Nama Lengkap</th>
+                        <th>TTL</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Alamat</th>
+                        <th>Email</th>
+                        <th>No. HP</th>
+                        <th>KTP</th>
+                        <th>Status</th>
+                        <th>Joined</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -32,9 +27,8 @@
 <script>
     var JS = {
         Init: function () {
-
-            var _this = this;
             
+            var _this = this;
             dataTableObject: null;
                    
             _this.dataTableObject = $('#dataTable').DataTable({
@@ -65,135 +59,58 @@
                             exportOptions: {
                                 columns:[0,1,2]
                             },
-                            message: 'Dicetak pada tanggal 18/03/2021 10:49:17 melalui aplikasi BRISMA TSI Tools'
-                        },
-                        { 
-                            text: '<i class="fa fa-plus"></i>', 
-                            className:'btn btn-sm', 
-                            action: function( e, dt, btn, config ){
-                                $('#modalAddAccount').find('.modal-title').text('Add Account');
-                                $('#modalAddAccount').modal();
-                                $('.form-control').val('');
-                            }
-                        },
-                        {
-                            extend: 'selected',
-                            text: '<i class="fa fa-eye"></i>',
-                            className:'btn btn-sm btn-default',
-                            enabled: false,
-                            action: function(e, dt, btn, config){
-                                
-                                var $item = dt.row( { selected: true } ).data();
-                                
-                                var html;
-                                
-                                html += '<tr><td>Kategori</td><td>' + $item.account_name + '</td></tr>\n\
-                                         <tr><td>Subject</td><td>' + $item.subject + '</td></tr>\n\
-                                         <tr><td>RKEY 1</td><td>' + $item.rkey1 + '</td></tr>\n\
-                                         <tr><td>RKEY 2</td><td>' + $item.rkey2 + '</td></tr>\n\
-                                         <tr><td>Description</td><td>' + $item.des + '</td></tr>\n\
-                                         <tr><td>Last Update</td><td>' + $item.last_update + '</td></tr>';
-                                
-                                $('.tbl-detail-account').html(html);
-                                $('#modalDetailAccount').modal();
-                                
-                            }
-                        },
-                        {
-                            extend: 'selected',
-                            text: '<i class="fa fa-edit"></i>',
-                            className:'btn btn-sm btn-default',
-                            enabled: false,
-                            action: function(e, dt, btn, config){
-                                
-                                var $form = $('#formAddAccount');
-                                var $item = dt.row( { selected: true } ).data();
-                                
-                                $('#modalAddAccount').find('.modal-title').text('Edit Account');
-                                
-                                $form.find('[name="id"]').val($item.id);
-                                $form.find('[name="category"]').val($item.account_name);
-                                $form.find('[name="subject"]').val($item.subject);
-                                $form.find('[name="rkey1"]').val($item.rkey1);
-                                $form.find('[name="rkey2"]').val($item.rkey2);
-                                $form.find('[name="des"]').val($item.des);
-                                    
-                                $('#modalAddAccount').modal();
-                                
-                            }
-                        },
-                        {
-                            extend: 'selected',
-                            text: '<i class="fa fa-ban"></i>',
-                            className:'btn btn-sm btn-default',
-                            action: function ( e, dt, button, config ) {
-                                var data = dt.row( { selected: true } ).data();
-                                if (!confirm('Ada yakin ingin menonaktifkan akun ' + data.subject)) {
-                                    return false;
-                                }
-                                
-                                $.ajax({
-                                url:'http://172.18.3.27:2727/index/service/genuse/block_account',
-                                data:{id: data.id},
-                                type:'POST',
-                                dataType:'json'
-                                }).then(function(data){
-                                    Swal.fire({
-                                        icon: 'success',
-                                        text: ''+ data.message +'',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    })
-                                    $(".btn-reload").trigger('click');
-                                });
-                            }
-                        },
-                        {
-                            extend: 'selected',
-                            text: '<i class="fa fa-trash"></i>',
-                            className:'btn btn-sm btn-default',
-                            action: function ( e, dt, button, config ) {
-                                var data = dt.row( { selected: true } ).data();
-                                if (!confirm('Ada yakin ingin menghapus akun ' + data.subject)) {
-                                    return false;
-                                }
-                                
-                                $.ajax({
-                                url:'http://172.18.3.27:2727/index/service/genuse/delete_account',
-                                data:{id: data.id},
-                                type:'delete',
-                                dataType:'json'
-                                }).then(function(data){
-                                    Swal.fire({
-                                        icon: 'success',
-                                        text: ''+ data.message +'',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    })
-                                    $(".btn-reload").trigger('click');
-                                });
-                            }
-                        }
-                                
+                        }           
                     ]
                 },
-
                 ajax      : {
-                    url:"http://localhost/brisma/btt/index/service/genuse/auth_list",
+                    url:"<?= base_url() ?>service/loperator/users",
                     type: "GET"
                 },
                 columns: [
-                    {data: 'account_name', class:'text-left'},
-                    {data: 'subject', class:'text-left'},
-                    {data: 'rkey1', class:'text-left'},
-                    {data: 'rkey2', class:'text-left'},
-                    {data: 'last_update', class:'text-left'}
+                    {data: null,"sortable": false, 
+                        render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                        }  
+                    },
+                    {data: 'nik', class:'text-left'},
+                    {data: 'nama_lengkap', class:'text-left'},
+                    {data: 'tempat_lahir',
+                        render: function (data, type, row, meta) {
+                        return row.tempat_lahir + ', ' + row.tanggal_lahir;
+                        }  
+                    },
+                    {data: 'jenis_kelamin', class:'text-left'},
+                    {data: 'alamat', class:'text-left'},
+                    {data: 'email', class:'text-left'},
+                    {data: 'nomor_hp', class:'text-left'},
+                    {data: 'ktp',
+                        render: function (data, type, row, meta) {
+                        return '<a href="#" data-url="'+row.ktp+'" class="show-ktp btn btn-sm btn-light"><i class="fa fa-image"></i></a>';
+                        }  
+                    },
+                    {data: 'status_jabatan', class:'text-left'},
+                    {data: 'joined', class:'text-left'}
                     ]
             });
         },
 
     };
-
+   
+    $(document).on('click', '.show-ktp', function () {
+        var url = $(this).attr('data-url');
+        Swal.fire({
+            imageUrl: '<?= base_url()?>assets/image/KTP/'+url,
+            imageWidth: 600,
+            imageHeight: 300,
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            }
+          })
+    });
+    
     $(document).ready(function () {
         JS.Init();
     })

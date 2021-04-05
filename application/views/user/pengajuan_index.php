@@ -18,7 +18,7 @@
                             ?>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-sm btn-secondary mx-sm-2 mb-2 btn-pilih-surat">Pilih</button>
+                    <button type="submit" class="btn btn-sm btn-secondary mx-sm-2 mb-2 btn-pilih-layanan">Pilih</button>
                 </form>
                 <div class="alert alert-secondary small mt-3 alert-list-dokumen" role="alert">
                     Silahkan pilih jenis surat terlebih dahulu
@@ -165,7 +165,7 @@
                 },
                 success: function (data) {
                     if (data.status) {
-                        $('.btn-pilih-surat').click();
+                        $('.btn-pilih-layanan').click();
                         Swal.fire({
                             icon: 'success',
                             text: ''+ data.message +'',
