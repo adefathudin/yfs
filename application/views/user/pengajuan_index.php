@@ -41,7 +41,7 @@
                 </div>
                 <form class="form-group form-upload-dokumen" method="post" action="<?= base_url() ?>service/luser/upload_dokumen">
                     <div class="input-hidden"></div>
-                    <input class="form-control form-control-sm" type="file" name="fp" required>
+                    <input class="form-control form-control-sm file-upload" type="file" accept="image/x-png,image/gif,image/jpeg" name="fp" required>
                     <button class="btn btn-sm btn-secondary mt-3 btn-upload-surat" type="submit">Upload</button>
                 </form>
             </div>
@@ -173,7 +173,8 @@
                             timer: 1500
                         })
                     }
-                    $(form).find('button[type="submit"]').removeAttr('disabled').html('Pilih');
+                    $('.file-upload').val('');
+                    $(form).find('button[type="submit"]').removeAttr('disabled').html('Upload');
                 }
             });
         }
@@ -200,6 +201,7 @@
                         $('.form-head-pengajuan').hide(2000);
                         $('.form-head-upload').hide(2000);
                         $('.list-pendukung-surat').hide(2000);
+                        $('.form-control').val('');
                     }
                     $(form).find('button[type="submit"]').removeAttr('disabled').html('Pilih');
                 }
@@ -215,7 +217,7 @@
         
         $('.btn-upload-surat').removeAttr('disabled');
 
-        $('.input-hidden').html('<input type="hidden" name="id_layanan" value="' + id_layanan + '"/> <input type="hidden" name="id_fp" value="' + id_fp + '"/>')
+        $('.input-hidden').html('<input type="hidden" name="id_layanan" value="' + id_layanan + '"/> <input type="hidden" name="id_fp" value="' + id_fp + '"/> <input type="hidden" name="desc_fp" value="' + desc_fp + '"/>')
 
         $('.label-upload').text(desc_fp);
     });

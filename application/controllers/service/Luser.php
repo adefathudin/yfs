@@ -56,6 +56,7 @@ class Luser extends REST_Controller {
         $id_layanan = $this->post('id_layanan');
         $user_id = $this->session->userdata('user_id');
         $id_fp = $this->post('id_fp');
+        $desc_fp = $this->post('desc_fp');
         
         $upload_path = 'assets/image/Dokumen/';        
         
@@ -92,7 +93,7 @@ class Luser extends REST_Controller {
         
         if ($insert){
             $output['status'] = true;
-            $output['message'] = $id_fp. " berhasil diupload";
+            $output['message'] = $desc_fp. " berhasil diupload";
         }
 
         $this->response($output);        

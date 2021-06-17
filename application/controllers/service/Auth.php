@@ -20,6 +20,8 @@ class Auth extends REST_Controller {
         $tanggal_lahir = $this->post('tanggal_lahir');
         $jkl = $this->post('jenis_kelamin');
         $email = $this->post('email');
+        $agama = $this->post('agama');
+        $profesi = $this->post('profesi');
         $hp = $this->post('nomor_hp');
         $ktp = $this->post('ktp');
         $alamat = $this->post('alamat');
@@ -69,7 +71,9 @@ class Auth extends REST_Controller {
                 'nama_lengkap' => $nama_lengkap,
                 'tempat_lahir' => $tempat_lahir,
                 'tanggal_lahir' => $tanggal_lahir,
-                'jenis_kelamin' => $jkl,                
+                'jenis_kelamin' => $jkl,            
+                'agama' => $agama,            
+                'profesi' => $profesi,                
                 'email' => $email,
                 'nomor_hp' => $hp,
                 'ktp' => $data['file_name'],

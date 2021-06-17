@@ -296,7 +296,7 @@
                         url: $(form).attr('action'),
                         type: $(form).attr('method'),
                         beforeSubmit: function () {
-                            if (!confirm("Tambah layanan "+$(form).find('input[type="text"]').val()+"?")) {
+                            if (!confirm("Anda yakin ingin melanjutkan?")) {
                                 return false;
                             }
                             $(form).find('button[type="submit"]').attr('disabled', 'disabled').html('<i class="fa fa-spin fa-circle-notch"></i> Please wait...');
@@ -313,7 +313,7 @@
                                 $('#addEditLayananModal').modal('toggle');
                             }
                             
-                            $(form).find('button[type="submit"]').removeAttr('disabled').html('Pilih');
+                            $(form).find('button[type="submit"]').removeAttr('disabled').html('Submit');
                         }
                     });
                 }
@@ -341,7 +341,7 @@
                                 })
                                 $('#addMasterPersyaratan').modal('toggle');
                             }
-                            $(form).find('button[type="submit"]').removeAttr('disabled').html('Pilih');
+                            $(form).find('button[type="submit"]').removeAttr('disabled').html('Submit');
                         }
                     });
                 }

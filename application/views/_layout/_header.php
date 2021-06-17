@@ -30,8 +30,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= $data_user->nama_lengkap ?> (<?= $data_user->status_jabatan?>) <i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="#">Activity Log</a>
+                        <a class="dropdown-item" href="<?= base_url() ?>profile">Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="<?= base_url()?>auth/logout">Logout</a>
                     </div>

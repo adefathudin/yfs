@@ -28,6 +28,7 @@
         <div class="modal-content">
             <form method="POST" class="form-update-status-pengajuan" action="<?= base_url() ?>service/loperator/update_status_pengajuan">
                 <input type="hidden" name="level" value="<?= $data_user->level?>">
+                <div class="hidden-detail-pengajuan"></div>
                 <div class="modal-header">
                     <h6 class="modal-title" id="exampleModalLabel">Detail Pengajuan</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -39,7 +40,7 @@
                         <tbody class="table-detail-pengajuan">
                         </tbody>
                         <tr bgcolor="#e6f9ff" class="acc-reject-form">
-                            <td>Persetujuan <?= $data_user->level ?></td>
+                            <td>Persetujuan <?= $data_user->status_jabatan ?></td>
                             <td>:</td>
                             <td>
                                 <div class="form-check form-check-inline">
@@ -53,6 +54,9 @@
                             </td>
                         </tr>
                     </table>
+                    <div class="form-group">
+                        <textarea class="keterangan-accept form-control mt-3" name="keterangan_accept" placeholder="keterangan..."></textarea>
+                    </div>
                     <div class="form-group">
                         <textarea class="keterangan-reject form-control mt-3" name="keterangan_reject" placeholder="keterangan..."></textarea>
                     </div>
@@ -113,6 +117,8 @@
                                 var $item = dt.row( { selected: true } ).data();
                                 var detail = '';
                                 $('.keterangan-reject').hide();
+                                $('.keterangan-accept').hide();
+                                $('.keterangan-accept').val($item.keterangan);
                                 $('.inlineRadio').prop('checked', false);
                                 
                                 $.ajax({
@@ -132,12 +138,15 @@
                                                     '<tr><td>TTL</td><td>:</td><td>'+data.user_name[i].tempat_lahir + ', ' +
                                                         data.user_name[i].tanggal_lahir+'</tr>' +
                                                     '<tr><td>Jenis Kelamin</td><td>:</td><td>'+data.user_name[i].jenis_kelamin+'</tr>' +
+                                                    '<tr><td>Agama</td><td>:</td><td>'+data.user_name[i].agama+'</tr>' +
+                                                    '<tr><td>Profesi</td><td>:</td><td>'+data.user_name[i].profesi+'</tr>' +
                                                     '<tr><td>Alamat</td><td>:</td><td>'+data.user_name[i].alamat+'</tr>' +
                                                     '<tr><td>Email</td><td>:</td><td>'+data.user_name[i].email+'</tr>' +
                                                     '<tr><td>No. HP</td><td>:</td><td>'+data.user_name[i].nomor_hp+'</tr>' +
                                                     '<tr><td>KTP</td><td>:</td><td>\n\
                                                         <a class="btn btn-sm btn-light show-ktp" data-url="'+data.user_name[i].ktp+'">\n\
                                                         <i class="fa fa-image"></i></a></tr>';
+                                            $('.hidden-detail-pengajuan').html('<input type="hidden" name="user_id" value="'+data.user_name[i].user_id+'">');
                                         }
                                         
                                         detail +=
@@ -166,23 +175,6 @@
                                                       '</div>';
                                         }
                                         detail += '</td></tr>';
-                                        
-                                        //operator name
-                                        if ($item.status_pengajuan == '4' || $item.status_pengajuan == '3'){
-                                            for (i=0;i<data.operator_name.length;i++){
-                                                 detail += '<tr><td>Diverifikasi oleh</td><td>:</td><td>'+data.operator_name[i].nama_lengkap +
-                                                           ' ('+data.operator_name[i].status_jabatan+')</td></tr>' +
-                                                           '<tr><td>Tanggal Verifikasi</td><td>:</td><td>'+$item.operator_time+'</td></tr>';
-                                            }
-                                        } else if ($item.status_pengajuan == '2' || $item.status_pengajuan == '1'){
-                                            for (i=0;i<data.operator_name.length;i++){
-                                                 detail += '<tr><td>Diverifikasi oleh</td><td>:</td><td>'+data.ka_ukpd_name[i].nama_lengkap +
-                                                           ' ('+data.operator_name[i].status_jabatan+')</td></tr>' +
-                                                           '<tr><td>Tanggal Verifikasi</td><td>:</td><td>'+$item.operator_time+'</td></tr>';
-                                            }
-                                        }
-                                        
-                                        
                                         
                                     }
                                     
@@ -260,6 +252,7 @@
                             $('.form-control').val('');
                             $('#detailPengajuanModal').modal('toggle');
                             $('.keterangan-reject').hide(1000);
+                            $('.keterangan-accept').hide(1000);
                             $('.checkbox-fp').prop('disabled', true);
                             $('.checkbox-fp').prop('checked', true);
                         }
@@ -312,6 +305,9 @@
     $('input').click(function() {
         if($('#inlineRadio1').is(':checked')) {
             $('.keterangan-reject').hide(1000);
+            <?php if ($data_user->level == LEVEL2){ ?>
+            $('.keterangan-accept').show(1000);
+            <?php } ?>
             $('.checkbox-fp').prop('disabled', true);
             $('.checkbox-fp').prop('checked', true);
         } else {
@@ -328,6 +324,7 @@
             });
             $('.checkbox-fp').removeAttr('disabled');
             $('.keterangan-reject').show(1000);
+            $('.keterangan-accept').hide(1000);
             $('.checkbox-fp').prop('checked', false);
         }
     });

@@ -3,48 +3,26 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="border-bottom text-center pb-4">
-                    <img src="<?php echo base_url('assets/img/user/profile/' . $data_user_tmp->profil) ?>" alt="profile" class="img-responsive rounded">
+                    <img src="<?php echo base_url('assets/image/KTP/' . $data_user->ktp) ?>" alt="profile" class="img-responsive img-circle img-thumbnail rounded">
                     <div class="mb-3"><br>
                         <h4>
                             <?php
-                            echo $data_user_tmp->nama_lengkap;
-
-                            if ($data_user->verifikasi == 1) {
-
-                                echo " <i class='far fa-fw fa-check-circle text-primary'></i>";
-                            }
-                            ?> 
-
+                            echo $data_user->nama_lengkap
+                            ?>
                         </h4>
                         <div class="d-flex align-items-center justify-content-center">
                             <h5 class="mb-0 mr-2 text-muted">
-                                <?php
-                                if ($data_user_tmp->level == PELAPOR) {
-                                    echo "<div class='small'>RT" . $data_user_tmp->rt . "/ RW" . $data_user_tmp->rw . "</div>";
-                                } else {
-                                    echo "<div class='small'>" . $data_user_tmp->level . "</div>";
-                                }
-                                ?>
+                                <?= "<div class='small'>" . $data_user->status_jabatan . "</div>"; ?>
                             </h5>
                         </div>     
                     </div>
-                    <p class="w-75 mx-auto mb-3">
-                        <?php
-                        if ($this->session->flashdata('pesan_lampiran')) { // Jika ada
-                            echo "
-                          <div class='alert alert-info alert-dismissible'>
-                          <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
-                            . $this->session->flashdata('pesan_lampiran') . "</div>";
-                        }
-                        ?>
-                    </p>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="d-block d-md-flex justify-content-between mt-4 mt-md-0">
                     <div class="text-center mt-4 mt-md-0">
                         <?php
-                        if ($data_user_tmp->user_id == $user_id) {
+                        if ($data_user->user_id == $user_id) {
                             echo"
                       <a href='#' data-toggle='modal' data-target='#settingUserModal'>
                       <button class='btn btn-outline-secondary'><i class='fas fa-fw fa-user-edit'></i> Setting</button></a>
@@ -57,11 +35,9 @@
                 </div>
                 <hr>
                 <div class="profile-feed">   
-                    <?php if ($data_user_tmp->user_id == $user_id) { ?>
                         <div class="text-primary">
-                            <i class="fas fa-fw fa-lock"></i> Semua identitas yang bersifat rahasia dan tidak akan dipublikasikan.
+                            <i class="fas fa-fw fa-lock"></i> Semua identitas bersifat rahasia dan tidak akan dipublikasikan.
                         </div>
-<?php } ?>
                     <!-- DATA INFORMASI -->                   
                     <div class="py-4">
                         <p class="clearfix">
@@ -70,11 +46,11 @@
                                 Joined
                             </span>
                             <span class="float-right text-muted">
-                        <?php echo $data_user_tmp->joined ?>
+                        <?php echo $data_user->joined ?>
                             </span>
                         </p>
                         <?php
-                        if ($data_user_tmp->user_id == $user_id || $data_user->level == KASATPEL) {
+                        if ($data_user->user_id == $user_id || $data_user->level == KASATPEL) {
                             echo"    
                         
                                 <p class='clearfix'>
@@ -83,7 +59,7 @@
                                     No. HP
                                   </span>
                                   <span class='float-right text-muted'>
-                                   " . $data_user_tmp->nomor_hp . "
+                                   " . $data_user->nomor_hp . "
                                   </span>
                                 </p>
                                 <p class='clearfix'>
@@ -92,7 +68,7 @@
                                   Tempat dan Tanggal Lahir
                                 </span>
                                 <span class='float-right text-muted'>" .
-                            $data_user_tmp->tempat_lahir . ", " . $data_user_tmp->tanggal_lahir . "
+                            $data_user->tempat_lahir . ", " . $data_user->tanggal_lahir . "
                                 </span>
                                 </p>
 
@@ -102,9 +78,9 @@
                                   Jenis Kelamin
                                 </span>
                                 <span class='float-right text-muted'>";
-                            if ($data_user_tmp->jenis_kelamin == "L") {
+                            if ($data_user->jenis_kelamin == "L") {
                                 $jk = "<i class='fas text-primary fa-fw fa-mars'></i> Laki-laki";
-                            } elseif ($data_user_tmp->jenis_kelamin == "P") {
+                            } elseif ($data_user->jenis_kelamin == "P") {
                                 $jk = "<i class='fas text-danger fa-fw fa-venus'></i> Perempuan";
                             } else {
                                 $jk = "-";
@@ -120,7 +96,7 @@
                                     Alamat
                                 </span>
                                 <span class="float-right text-muted">
-                            <?php echo $data_user_tmp->alamat ?>
+                            <?php echo $data_user->alamat ?>
                                 </span>
                             </p>
                             <?php
@@ -221,7 +197,7 @@
                         <div class="modal-footer">
                             <div class="form-group text-right">
                                 <?php
-                                if ($data_user_tmp->verifikasi == 1) {
+                                if ($data_user->verifikasi == 1) {
                                     echo "<div class='text-danger'> Akun anda sudah terverifikasi</div>";
                                 } else {
                                     echo "<button type='submit' class='btn btn-primary mb-2 btn-save-identitas'>Update Data</button>";

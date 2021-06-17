@@ -89,54 +89,67 @@
                         <div class="col-lg-12 mt-5 mt-lg-0">
                             <form action="<?= base_url() ?>service/auth/signup" method="post" role="form" class="signup-form">
                                 <input type="hidden" name="level" value="user">
-                                <input type="hidden" name="status_jabatan" value="Masyarakat">
-                                <div class="form-group">
-                                    <label class="small">NIK*</label>
-                                    <input type="number" class="form-control" name="nik" placeholder="ex. 1234567890" required="required"/>
-                                    <div class="validate"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="small">Nama Lengkap*</label>
-                                    <input type="text" class="form-control" name="nama" placeholder="ex. Jhon Pantau" required="required"/>
-                                    <div class="validate"></div>
-                                </div>                                
+                                <input type="hidden" name="status_jabatan" value="Masyarakat">                  
                                 <div class="form-row">
-                                    <div class="col-md-6 form-group">
+                                    <div class="form-group col-md-6">
+                                        <label class="small">NIK*</label>
+                                        <input type="number" class="form-control" name="nik" placeholder="ex. 1234567890" required="required"/>
+                                        <div class="validate"></div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="small">Nama Lengkap*</label>
+                                        <input type="text" class="form-control" name="nama" placeholder="ex. Jhon Pantau" required="required"/>
+                                        <div class="validate"></div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-3 form-group">
                                         <label class="small">Tempat Lahir*</label>
                                         <input type="text" name="tempat_lahir" class="form-control" placeholder="ex. Marunda" required="required"/>
                                         <div class="validate"></div>
                                     </div>
-                                    <div class="col-md-6 form-group">
+                                    <div class="col-md-2 form-group">
                                         <label class="small">Tanggal Lahir*</label>
                                         <input type="date" class="form-control" min="1950-01-01" max="2004-01-01" name="tanggal_lahir" required="required"/>
                                         <div class="validate"></div>
                                     </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="col-md-6 form-group">
+                                    <div class="col-md-2 form-group">
                                         <label class="small">Jenis Kelamin*</label>
-                                        <select class="form-control" name="jenis_kelamin" required="required"/>
+                                        <select class="form-control" name="jenis_kelamin" required="required">
                                             <option value="L">Laki-laki</option>
                                             <option value="P">Perempuan</option>
                                         </select>
                                     </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small">Alamat E-Mail*</label>
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="ex. abcd@mail.com" required="required"/>
+                                    <div class="col-md-2 form-group">
+                                        <label class="small">Agama*</label>
+                                        <select class="form-control" name="agama" required="required">
+                                            <option value="Islam">Islam</option>
+                                            <option value="Kristen">Kristen</option>
+                                            <option value="Hindu">Hindu</option>
+                                            <option value="Budha">Budha</option>
+                                            <option value="Kristen">Kristen</option>
+                                            <option value="Konghucu">Konghucu</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label class="small">Profesi*</label>
+                                        <input type="text" name="profesi" class="form-control" placeholder="ex. Wiraswasta, Karyawan, Dokter" required="required"/>
                                         <div class="validate"></div>
                                     </div>
                                 </div>
 
                                 <div class="form-row">
-                                    <div class="col-md-6 form-group">
+                                    <div class="col-md-4 form-group">
+                                        <label class="small">Alamat E-Mail*</label>
+                                        <input type="email" class="form-control" name="email" id="email" placeholder="ex. abcd@mail.com" required="required"/>
+                                        <div class="validate"></div>
+                                    </div>
+                                    <div class="col-md-4 form-group">
                                         <label class="small">Nomor HP*</label>
                                         <input type="number" class="form-control" name="nomor_hp" placeholder="ex. 0812345678" required="required"/>
                                         <div class="validate"></div>
                                     </div>
-
-                                    <div class="col-md-6 form-group">
+                                    <div class="col-md-4 form-group">
                                         <label class="small">KTP (Scan/Foto e-KTP)*</label>
                                         <input type="file" class="form-control" name="ktp" placeholder="Tanggal Lahir" required="required"/>
                                         <div class="validate"></div>
@@ -145,7 +158,7 @@
 
                                 <div class="form-group">
                                     <label class="small">Alamat Rumah*</label>
-                                    <textarea class="form-control" name="alamat" rows="5" required="required"></textarea>
+                                    <textarea class="form-control" name="alamat" rows="3" required="required"></textarea>
                                     <div class="validate"></div>
                                 </div>
 

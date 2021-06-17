@@ -33,6 +33,7 @@
                     <th>Tgl. Pengajuan</th>
                     <th>Keterangan</th>
                     <th>Status Pengajuan</th>
+                    <th>Dokumen</th>
                 </tr>
             </thead>
             <tbody>
@@ -130,7 +131,7 @@
                                 
                                 var $form = $('#formAddAccount');
                                 var $item = dt.row( { selected: true } ).data();
-                                var detail = '';
+                                var detail = 'tes';
                                 $('.keterangan-reject').hide();
                                 $('.inlineRadio').prop('checked', false);
                                 
@@ -142,7 +143,6 @@
                                 }).then(function (data) {
                                     var i;
                                     if (data.status) {
-                                        
                                         for (i=0;i<data.user_name.length;i++){
                                             detail += 
                                                     '<tr bgcolor="#e6f9ff"><td colspan="3" class="text-center">Data Pemohon</td></tr>' +
@@ -186,20 +186,17 @@
                                         }
                                         detail += '</td></tr>';
                                         
-                                        //operator name
-                                        if ($item.status_pengajuan == '4' || $item.status_pengajuan == '3'){
                                             for (i=0;i<data.operator_name.length;i++){
-                                                 detail += '<tr><td>Diverifikasi oleh</td><td>:</td><td>'+data.operator_name[i].nama_lengkap +
+                                                 detail += '<tr><td>Verifikasi Operator</td><td>:</td><td>'+data.operator_name[i].nama_lengkap +
                                                            ' ('+data.operator_name[i].status_jabatan+')</td></tr>' +
-                                                           '<tr><td>Tanggal Verifikasi</td><td>:</td><td>'+$item.operator_time+'</td></tr>';
+                                                           '<tr><td></td><td></td><td>'+$item.operator_time+'</td></tr>';
                                             }
-                                        } else if ($item.status_pengajuan == '2' || $item.status_pengajuan == '1'){
-                                            for (i=0;i<data.operator_name.length;i++){
-                                                 detail += '<tr><td>Diverifikasi oleh</td><td>:</td><td>'+data.ka_ukpd_name[i].nama_lengkap +
-                                                           ' ('+data.operator_name[i].status_jabatan+')</td></tr>' +
-                                                           '<tr><td>Tanggal Verifikasi</td><td>:</td><td>'+$item.operator_time+'</td></tr>';
+                                            
+                                            for (i=0;i<data.ka_ukpd_name.length;i++){
+                                                 detail += '<tr><td>Verifikasi Ka. UKPD</td><td>:</td><td>'+data.ka_ukpd_name[i].nama_lengkap +
+                                                           ' ('+data.ka_ukpd_name[i].status_jabatan+')</td></tr>' +
+                                                           '<tr><td></td><td></td><td>'+$item.ka_ukpd_time+'</td></tr>';
                                             }
-                                        }
                                         
                                         
                                         
@@ -251,8 +248,23 @@
                             
                             dok += row.desc_status+ ' ' + st;
                             return dok;
-                        }  
+                        } 
                     },
+                    {data: null, 
+                        render: function (data, type, row, meta) {
+                            var st = '';
+                            var dok = '';
+                            
+                            if (row.status_pengajuan == 1){
+                                st += '<a href="<?= base_url() ?>assets/files/'+row.id_pengajuan+'-'+row.nama_lengkap+'.pdf" target="_blank"><i class="fa fa-download"></i> download</a>';
+                            } else if (row.status_pengajuan == 2){
+                                st += '<br><i class="fa fa-edit"></i> Ka. UPKD note:  '+row.ka_ukpd_note;
+                            }
+                            
+                            dok += st;
+                            return dok;
+                        } 
+                    }
                     ]
             });
             

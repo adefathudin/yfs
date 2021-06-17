@@ -327,7 +327,7 @@ class Loperator extends REST_Controller {
         $totalRecords = $totalRecords == '' ? $totalRecords : "0";
 
         if ($search && $search['value']) {
-            $this->db->like('id_pengajuan', $search['value']);
+            $this->db->like('a.id_pengajuan', $search['value']);
         }
 
         $this->db->select('count(*) as found');
@@ -347,7 +347,7 @@ class Loperator extends REST_Controller {
         );
 
         if ($search && $search['value']) {
-            $this->db->like('id_pengajuan', $search['value']);
+            $this->db->like('a.id_pengajuan', $search['value']);
         }
         
         $this->db->select('a.*,b.nama_lengkap,c.desc_status,d.desc_layanan');
@@ -388,6 +388,10 @@ class Loperator extends REST_Controller {
         $this->db->where('user_id', $operator_id);
         $result_operator = $this->db->get('users_detail')->result();
         
+        $this->db->select('nama_lengkap,status_jabatan,level');
+        $this->db->where('user_id', $ka_ukpd_id);
+        $result_ka_ukpd = $this->db->get('users_detail')->result();
+        
         $this->db->select('*');
         $this->db->where('user_id', $user_id);
         $result_user = $this->db->get('users_detail')->result(); 
@@ -396,6 +400,7 @@ class Loperator extends REST_Controller {
             $output['status'] = true;
             $output['fp_eksist'] = $result_fp_eksist;
             $output['operator_name'] = $result_operator;
+            $output['ka_ukpd_name'] = $result_ka_ukpd;
             $output['user_name'] = $result_user;
         }
         
@@ -468,7 +473,9 @@ class Loperator extends REST_Controller {
         $accept = $this->post('accept');
         $level = $this->post('level');
         $keterangan = $this->post('keterangan_reject');
+        $keterangan_accept = $this->post('keterangan_accept');
         $fp = $this->post('checkbox_fp');
+        $user = $this->post('user_id');
         
         if ($level == LEVEL2){
             $acc = ACC_OPERATOR; 
@@ -483,15 +490,15 @@ class Loperator extends REST_Controller {
         }
         
         if ($accept == 'accept') {
-            $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $acc, $user_id => $this->session->userdata('user_id'), $note => ''], $id_pengajuan);
+            $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $acc, $user_id => $this->session->userdata('user_id'), $note => '', 'keterangan' => $keterangan_accept], $id_pengajuan);
             
             if ($level == LEVEL1){
-                $this->_laporan_pdf();
+                $this->_laporan_pdf($user,$id_pengajuan,$keterangan_accept);
             }
             
         } else {
             
-            $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $rej, $user_id => $this->session->userdata('user_id'), $note => $keterangan, 'is_open' => true], $id_pengajuan);
+            $update = $this->ref_pengajuan_m->save(['status_pengajuan' => $rej, $user_id => $this->session->userdata('user_id'), $note => $keterangan, 'is_open' => true, 'keterangan' => $keterangan_accept], $id_pengajuan);
             
             if ($fp != '') {
                 for ($i = 0; $i < count($fp); $i++) {
@@ -520,226 +527,101 @@ class Loperator extends REST_Controller {
         $this->response($output);
     }
     
-    public function _laporan_pdf() {
+    public function _laporan_pdf($user,$id_pengajuan,$keterangan_accept) {
 
         $this->load->model('rel_fp_m');
         
+        $user_name = $this->users_detail_m->get_by(['user_id' => $user]);
+        
         $data = $this->rel_fp_m->get();
         
-        $this->load->library('pdf');
-        
-        $html = '<table width="90%">
-<tbody>
-<tr style="height: 22px;">
-<td style="height: 22px;">LOGO </td>
-<td style="height: 22px;">PROV </td>
-<td style="height: 22px;">&nbsp;:</td>
-<td style="height: 22px;">{} </td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-</tr>
-<tr style="height: 22px;">
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;KOTA</td>
-<td style="height: 22px;">&nbsp;:</td>
-<td style="height: 22px;">&nbsp;{}</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-</tr>
-<tr style="height: 22px;">
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;KEC</td>
-<td style="height: 22px;">&nbsp;:</td>
-<td style="height: 22px;">&nbsp;{}</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;Model</td>
-<td style="height: 22px;">: </td>
-<td style="height: 22px;">{} </td>
-</tr>
-<tr style="height: 22px;">
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;KEL</td>
-<td style="height: 22px;">&nbsp;:</td>
-<td style="height: 22px;">&nbsp;{}</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;Kode kel</td>
-<td style="height: 22px;">&nbsp;:</td>
-<td style="height: 22px;">&nbsp;{}</td>
-</tr>
-<tr style="height: 22px;">
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;Alamat&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-</tr>
-<tr style="height: 22px;">
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&lt;hr&gt;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-</tr>
-<tr style="height: 22px;">
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">surat keterangan</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-</tr>
-<tr style="height: 22px;">
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">Nomor</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-<td style="height: 22px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">Nama</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">data pengajuan</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">penutup</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">lokasi, date</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">ttd ybs</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">ttd lurah</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">no</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">tgl</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-<tr style="height: 22.2px;">
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">camat</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-<td style="height: 22.2px;">&nbsp;</td>
-</tr>
-</tbody>
-</table>
-<!-- DivTable.com -->
-<p>&nbsp;</p>';
-        
-        $this->pdf->loadHtml($html);
-        $this->pdf->setPaper('A4', 'potrait');
+        $html = '<html>
+        <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+        <style type="text/css">
+        <!--
+        span.cls_002{font-family:Arial,serif;font-size:14.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_002{font-family:Arial,serif;font-size:14.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_003{font-family:Arial,serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_003{font-family:Arial,serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_004{font-family:Tahoma,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_004{font-family:Tahoma,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_008{font-family:Times,serif;font-size:16.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: underline}
+        div.cls_008{font-family:Times,serif;font-size:16.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        span.cls_006{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        div.cls_006{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+        span.cls_007{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        div.cls_007{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+        -->
+        </style>
+        </head>
+        <body>
+        <div style="position:absolute;left:50%;margin-left:-297px;top:0px;width:595px;height:935px;border-style:outset;overflow:hidden">
+        <div style="position:absolute;left:0px;top:0px">
+        <img src="'.base_url().'assets/image/background_report.jpg" width=595 height=935/></div>
+        <div style="position:absolute;left:148.32px;top:28.89px" class="cls_002"><span class="cls_002">PEMERINTAH PROVINSI DKI JAKARTA</span></div>
+        <div style="position:absolute;left:153.96px;top:56.63px" class="cls_003"><span class="cls_003">KOTAMADYA</span></div>
+        <div style="position:absolute;left:239.88px;top:56.63px" class="cls_003"><span class="cls_003">:</span></div>
+        <div style="position:absolute;left:254.16px;top:56.63px" class="cls_003"><span class="cls_003">Jakarta Utara</span></div>
+        <div style="position:absolute;left:153.96px;top:68.15px" class="cls_003"><span class="cls_003">KECAMATAN</span></div>
+        <div style="position:absolute;left:239.88px;top:68.15px" class="cls_003"><span class="cls_003">:</span></div>
+        <div style="position:absolute;left:254.16px;top:68.15px" class="cls_003"><span class="cls_003">Cilincing</span></div>
+        <div style="position:absolute;left:153.96px;top:79.67px" class="cls_003"><span class="cls_003">KELURAHAN</span></div>
+        <div style="position:absolute;left:239.88px;top:79.67px" class="cls_003"><span class="cls_003">:</span></div>
+        <div style="position:absolute;left:254.16px;top:79.67px" class="cls_003"><span class="cls_003">Marunda</span></div>
+        <div style="position:absolute;left:148.32px;top:104.97px" class="cls_004"><span class="cls_004">Jl. Marunda Baru No. 5 Telp. (021) 44851565</span></div>
+        <div style="position:absolute;left:211.32px;top:155.39px" class="cls_008"><span class="cls_008">SURAT KETERANGAN</span></div>
+        <div style="position:absolute;top:176.74px" class="cls_006"><span class="cls_006"><center>Nomor : '.strtoupper($id_pengajuan).'/'.date('Y').'</center></span></div>';
+        foreach ($user_name as $user){
+            $nama_user = strtoupper($user->nama_lengkap);
+            $tgl_lahir = date('d M Y', strtotime($user->tanggal_lahir));
+         $html .=    
+        '<div style="position:absolute;left:72.00px;top:208.54px" class="cls_006"><span class="cls_006">Nama Lengkap</span></div>
+        <div style="position:absolute;left:226.08px;top:208.54px" class="cls_006"><span class="cls_006">:</span></div>
+        <div style="position:absolute;left:251.76px;top:208.54px" class="cls_006"><span class="cls_006">'.$nama_user.'</span></div>
+        <div style="position:absolute;left:72.00px;top:224.38px" class="cls_006"><span class="cls_006">No. KTP/SKTLD</span></div>
+        <div style="position:absolute;left:226.08px;top:224.38px" class="cls_006"><span class="cls_006">:</span></div>
+        <div style="position:absolute;left:251.76px;top:224.38px" class="cls_006"><span class="cls_006">'.$user->nik.'</span></div>
+        <div style="position:absolute;left:72.00px;top:240.22px" class="cls_006"><span class="cls_006">Tempat / Tanggal Lahir</span></div>
+        <div style="position:absolute;left:226.08px;top:240.22px" class="cls_006"><span class="cls_006">:</span></div>
+        <div style="position:absolute;left:251.76px;top:240.22px" class="cls_006"><span class="cls_006">'.$user->tempat_lahir.', '.$tgl_lahir.'</span></div>
+        <div style="position:absolute;left:72.00px;top:256.06px" class="cls_006"><span class="cls_006">Jenis Kelamin</span></div>
+        <div style="position:absolute;left:226.08px;top:256.06px" class="cls_006"><span class="cls_006">:</span></div>
+        <div style="position:absolute;left:251.76px;top:256.06px" class="cls_006"><span class="cls_006">'.$user->jenis_kelamin.'</span></div>
+        <div style="position:absolute;left:72.00px;top:272.02px" class="cls_006"><span class="cls_006">Agama</span></div>
+        <div style="position:absolute;left:226.08px;top:272.02px" class="cls_006"><span class="cls_006">:</span></div>
+        <div style="position:absolute;left:251.76px;top:272.02px" class="cls_006"><span class="cls_006">'.$user->agama.'</span></div>
+        <div style="position:absolute;left:72.00px;top:287.86px" class="cls_006"><span class="cls_006">Pekerjaan</span></div>
+        <div style="position:absolute;left:226.08px;top:287.86px" class="cls_006"><span class="cls_006">:</span></div>
+        <div style="position:absolute;left:251.76px;top:287.86px" class="cls_006"><span class="cls_006">'.$user->profesi.'</span></div>
+        <div style="position:absolute;left:72.00px;top:303.70px" class="cls_006"><span class="cls_006">Alamat</span></div>
+        <div style="position:absolute;left:226.08px;top:303.70px" class="cls_006"><span class="cls_006">:</span></div>
+        <div style="position:absolute;left:251.76px;top:303.70px" class="cls_006"><span class="cls_006">'.$user->alamat.'</span></div>
+        <div style="position:absolute;left:72.00px;top:334.54px" class="cls_006"><span class="cls_006">Maksud / Keperluan</span></div>
+        <div style="position:absolute;left:226.08px;top:334.54px" class="cls_006"><span class="cls_006">:</span></div>'; }
+        $html .= '
+        <div style="position:absolute;left:251.76px;top:334.54px" class="cls_006"><span class="cls_006">'.$keterangan_accept.'</span></div>
+        <div style="position:absolute;left:72.00px;top:382.30px" class="cls_006"><span class="cls_006">Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya</span></div>
+        <div style="position:absolute;left:383.40px;top:419.82px" class="cls_006"><span class="cls_006">Jakarta, '.date('d M Y').'</span></div>
+        <div style="position:absolute;left:99.60px;top:435.66px" class="cls_006"><span class="cls_006">Tanda tangan ybs</span></div>
+        <div style="position:absolute;left:401.16px;top:435.66px" class="cls_006"><span class="cls_006">Lurah Marunda</span></div>
+        <div style="position:absolute;left:94.56px;top:499.14px" class="cls_007"><span class="cls_007">'.$nama_user.'</span></div>
+        <div style="position:absolute;left:408.48px;top:499.14px" class="cls_006"><span class="cls_006">Nama Lurah</span></div>
+        <div style="position:absolute;left:262.56px;top:515.10px" class="cls_006"><span class="cls_006">Nomor :</span></div>
+        <div style="position:absolute;left:259.92px;top:530.94px" class="cls_006"><span class="cls_006">Tanggal :</span></div>
+        <div style="position:absolute;left:251.04px;top:546.78px" class="cls_006"><span class="cls_006">Mengetahui :</span></div>
+        <div style="position:absolute;left:243.36px;top:562.62px" class="cls_006"><span class="cls_006">Camat Cilincing</span></div>
+        </div>
+
+        </body>
+        </html>';
+                
+        $this->load->library('pdf'); //memanggil library dompdf yang ada di folder libraris
+        $this->pdf->loadHtml($html); //load code html yang akan digenerate menjadi pdf
+        $this->pdf->setPaper('A4', 'potrait'); // setting ukuran kertas
+        $this->pdf->set_option('isRemoteEnabled', true); // <-- object ini yang perlu kita tambahkan 
         $this->pdf->render();
         $output = $this->pdf->output();
-        file_put_contents("/mnt/d/file.pdf", $output);
+        file_put_contents("./assets/files/".$id_pengajuan."-".$nama_user.".pdf", $output);
         
     }
 
